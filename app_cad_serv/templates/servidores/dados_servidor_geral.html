@@ -12,6 +12,18 @@
     <link rel="stylesheet" href="{% static 'css/dados_servidor_geral.css' %}">
   <title>Dados dos Servidores</title>
 
+  <style>
+    .matricula-filter{
+  max-width: 200px;
+  margin-left: 10px;
+}
+
+.btn-filter{
+  margin-right: 1800px;
+  margin-bottom: 10px;
+}
+  </style>
+
 </head>
 
 <div class="menu-bar">
@@ -65,29 +77,45 @@
 
 
 
+
+
+
+
+
+
+<img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="container-fluid text-center">
+
+  <div class="container-fluid text-center">
+    <button class="btn btn-primary btn-filter" onclick="toggleFilters()">Filtragem</button>
+</div>
+
   
-  <div class="mb-3 d-flex justify-content-start filter">
-      <label for="searchInput" class="form-label">Pesquisar por Nome:</label>
-      <input type="text" class="form-control" id="searchInput" oninput="filterServidores()">
-    </div>
+  <div id="filtroContainer" style="display: none;">
+   <div class="mb-3 d-flex justify-content-start filter">
+       <label for="searchInput" class="form-label">Pesquisar por Nome:</label>
+       <input type="text" class="form-control" id="searchInput" oninput="filterServidores()">
+     </div>
+  
+     <div class="mb-3 d-flex justify-content-start">
+       <label for="matriculaInput" class="form-label">Filtrar por Matrícula:</label>
+       <input type="text" class="form-control matricula-filter" id="matriculaInput" oninput="filterMatricula()">
+     </div>
 
-    
-    
-    <img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
-    
-
-
-
-
-
-
-
-
-
-
-
-    <table class="table table-bordered table-top">
+</div>
+<table class="table table-bordered table-top">
       <tbody>
         <tr>
           <td>PREFEITURA MUNICIPAL DE MACEIÓ</td>
@@ -102,11 +130,10 @@
           <td>COORDENADOR: {{ user.first_name }} {{ user.last_name }}</td>
         </tr>
         <tr>
-          <td>MÊS REFERÊNCIA - {{servidor.mes_referencia}} </td>
+          <td>DATA REFÊRENCIA - <h2 id="datetime"></h2> </td>
         </tr>
       </tbody>
     </table>
-    
     <table id="tabelaServidores" class="table table-bordered">
       <thead>
         <tr>
@@ -172,6 +199,43 @@
       // Adiciona ou remove a classe 'dark-mode' do corpo da página
       document.body.classList.toggle('dark-mode');
     }
+
+    function filterMatricula() {
+    var inputMatricula, filterMatricula, table, tr, tdMatricula, i, txtValueMatricula;
+    inputMatricula = document.getElementById("matriculaInput");
+    filterMatricula = inputMatricula.value.toUpperCase();
+    table = document.getElementById("tabelaServidores");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+      tdMatricula = tr[i].getElementsByTagName("td")[2]; // Assumindo que a matrícula está na 4ª coluna (índice 3)
+
+      if (tdMatricula) {
+        txtValueMatricula = tdMatricula.textContent || tdMatricula.innerText;
+
+        if (txtValueMatricula.toUpperCase().indexOf(filterMatricula) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function updateDateTime() {
+            var currentDate = new Date();
+            var formattedDate = currentDate.toLocaleDateString();
+            
+
+            // Display the date and time in the "datetime" element
+            document.getElementById("datetime").textContent = "" + formattedDate
+        }
+  
+        
+        function toggleFilters() {
+        var filtroContainer = document.getElementById("filtroContainer");
+        filtroContainer.style.display = (filtroContainer.style.display === "none" || filtroContainer.style.display === "") ? "block" : "none";
+      }
   </script>
 </body>
 

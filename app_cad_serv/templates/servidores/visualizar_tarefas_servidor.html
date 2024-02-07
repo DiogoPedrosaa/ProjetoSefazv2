@@ -16,23 +16,74 @@
     <title>Visualizar Tarefas</title>
 </head>
 
+<style>
+    body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
 
+.usuario-barra {
+  background-color: #3498db;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  /* Alterado para flex-direction: column */
+  align-items: flex-start;
+  /* Alinhado à esquerda */
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 25px;
+}
+
+.usuario-barra span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.usuario-barra form {
+display: flex;
+align-items: center;
+}
+
+.usuario-barra img {
+width: 30px; /* Ajuste o tamanho conforme necessário */
+height: 30px; /* Ajuste o tamanho conforme necessário */
+cursor: pointer; /* Adiciona um cursor indicando que é clicável */
+margin-right: 325px;
+
+}
+
+.home-btn img {
+width: 40px; /* Defina a largura desejada */
+height: 40px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
+max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+margin-right: 0;
+margin-left: 1500px;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+h2 {
+    color: #1f1e1e;
+}
+
+p {
+    color: #555;
+}
+
+
+</style>
 <body>
     <div class="usuario-barra">
         {% if user.is_authenticated %}
         <span>Bem-vindo(a), {{ user.username }}</span>
         <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
-        <form method="post" action="{% url 'logout' %}">
-            <a href="{% url 'home' %}" class="home-btn">
-                <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
-              </a>
-            {% csrf_token %}
-            <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout"
-                onclick="this.closest('form').submit()">
-        </form>
-        {% endif %}
         <div class="menu-bar">
-            <div class="outros-botoes">
               <!-- Botão Sistemas Dropdown -->
               <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
@@ -48,6 +99,16 @@
                   {% endif %}
                 </ul>
               </div>
+        <form method="post" action="{% url 'logout' %}">
+
+            <a href="{% url 'home' %}" class="home-btn">
+                <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+              </a>
+            {% csrf_token %}
+            <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout"
+                onclick="this.closest('form').submit()">
+        </form>
+        {% endif %}
             </div>
           </div>
         </div>
