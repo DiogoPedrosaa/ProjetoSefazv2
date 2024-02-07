@@ -1,0 +1,116 @@
+.navbar-brand {
+    text-align: center;
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .navbar {
+    width: 100%;
+    max-width: none;
+    color: aquamarine;
+  }
+
+  .table-top {
+    max-width: 500px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+  }
+
+  .table-top td {
+    text-align: start;
+  }
+
+  #searchInput {
+    max-width: 200px;
+  }
+
+
+
+  .form-label {
+    margin-right: 5px;
+  }
+
+
+  .small-font {
+    font-size: 15px;
+
+  }
+
+
+  #tabelaServidores {
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  body.dark-mode {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  body.dark-mode .navbar {
+    background-color: #1e272e;
+  }
+
+  body.dark-mode #tabelaServidores {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+  }
+
+  #toggleDarkModeButton {
+    position: absolute;
+    top: 10px; /* Ajuste conforme necessário */
+    right: 10px; /* Ajuste conforme necessário */
+    z-index: 1000; /* Certifique-se de que o botão está acima de outros elementos */
+    max-width: 30px; /* Defina a largura máxima desejada */
+    max-height: 30px; /* Defina a altura máxima desejada */
+    cursor: pointer;
+  }
+
+  .usuario-barra {
+    background-color: #3498db;
+    padding: 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    /* Alterado para flex-direction: column */
+    align-items: flex-start;
+    /* Alinhado à esquerda */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 25px;
+  }
+
+  .usuario-barra span {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+  }
+
+  .usuario-barra form {
+  display: flex;
+  align-items: center;
+}
+
+.usuario-barra img {
+  width: 30px; /* Ajuste o tamanho conforme necessário */
+  height: 30px; /* Ajuste o tamanho conforme necessário */
+  cursor: pointer; /* Adiciona um cursor indicando que é clicável */
+  max-width: 100%;
+ 
+  
+}
+
+.home-btn img {
+width: 50px; /* Defina a largura desejada */
+height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
+max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+margin-left: 1740px;
+}
+
+
+#tabelaServidores th.negrito {
+font-weight: bold;
+}
+
+#tabelaServidores td {
+font-weight: normal; /* Adicione esta linha para remover o negrito nas células de dados */
+}

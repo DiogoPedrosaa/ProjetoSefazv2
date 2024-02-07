@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dados dos Servidores</title>
+</head>
+
+<body>
+    <h1>Dados dos Servidores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Servidor</th>
+                <th>Escala</th>
+                <th>Mat</th>
+                <th>Pontualidade</th>
+                <th>Assiduidade</th>
+                <th>Exec. Tarefas</th>
+                <th>Iniciativa</th>
+                <th>At. Serviços</th>
+                <th>Total Pontos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servidor in servidores %}
+            <tr>
+                <td>{{ servidor.nome }}</td>
+                <td>{{ servidor.escala }}</td>
+                <td>{{ servidor.matricula }}</td>
+                <td>{{ servidor.pontualidade }}</td>
+                <td>{{ servidor.assiduidade }}</td>
+                <td>{{ servidor.execucao_tarefas }}</td>
+                <td>{{ servidor.iniciativa }}</td>
+                <td>{{ servidor.atendimento_servicos }}</td>
+                <td>{{ servidor.total_pontos }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

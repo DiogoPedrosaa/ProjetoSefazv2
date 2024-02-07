@@ -1,0 +1,50 @@
+.usuario-barra {
+    background-color: #3498db;
+    padding: 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    /* Alterado para flex-direction: column */
+    align-items: flex-start;
+    /* Alinhado à esquerda */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 25px;
+  }
+
+  .usuario-barra span {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+  }
+
+  .usuario-barra form {
+  display: flex;
+  align-items: center;
+}
+
+.usuario-barra img {
+  width: 30px; 
+  height: 30px;
+  cursor: pointer; 
+  
+}
+
+.home-btn img {
+width: 40px; 
+height: 40px; 
+max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+margin-left: 1750px;
+position: relative;
+}
+
+.navbar-brand {
+    text-align: center;
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .navbar {
+    width: 100%;
+    max-width: none;
+    color: aquamarine;
+  }

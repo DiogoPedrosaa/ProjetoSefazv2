@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/visualizar_tarefas_servidor.css' %}">
+
+
+    <title>Visualizar Tarefas</title>
+</head>
+
+
+<body>
+    <div class="usuario-barra">
+        {% if user.is_authenticated %}
+        <span>Bem-vindo(a), {{ user.username }}</span>
+        <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+        <form method="post" action="{% url 'logout' %}">
+            <a href="{% url 'home' %}" class="home-btn">
+                <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+              </a>
+            {% csrf_token %}
+            <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout"
+                onclick="this.closest('form').submit()">
+        </form>
+        {% endif %}
+        <div class="menu-bar">
+            <div class="outros-botoes">
+              <!-- Botão Sistemas Dropdown -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Sistemas
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta De Servidores</button></li>
+                  <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
+                  <li><button class="dropdown-item" onclick="window.location.href='/cadastrar'">Sistema de Lançamento</button></li>
+                  {% if user.is_authenticated and user.is_superuser %}
+                  <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    
+
+    <div class="container mt-5">
+        <h2 class="text-center">SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ</h2>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <p style="text-transform: uppercase;">Diretor/Coordenador: {{ tarefas.0.diretor_coordenador }}</p>
+                </div>
+                <div class="mb-4">
+                    <p style="font-weight: bold;">Colaborador: {{ servidor.nome }}</p>
+                </div>
+                <div class="mb-4">
+                    <p class="font-weight-bold">Matrícula: {{ servidor.matricula }}</p>
+                </div>
+                <div>
+                    <p>Data Referente {{ servidor.mes_referencia }}</p>
+                </div>
+            </div>
+        </div>
+        <h2 class="mt-4">Relatório Das Tarefas Executadas:</h2>
+        <ul>
+            {% for tarefa in tarefas %}
+            <li>
+                {{ tarefa.tarefas|linebreaksbr }}
+                
+                <form method="post" action="{% url 'excluir_tarefa' tarefa.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm ml-2">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </form>
+            </li>
+            <p></p>
+            <li>
+                Data: {{ tarefa.data }}
+            </li>
+            <hr>
+            <p></p>
+            {% empty %}
+            <p>Nenhuma tarefa registrada para este servidor.</p>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

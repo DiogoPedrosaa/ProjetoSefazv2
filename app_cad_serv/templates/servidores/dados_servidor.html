@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/dados_servidor.css' %}">
+    <script src="{% static 'js/dados_servidor.js' %}"></script>
+
+  <title>Dados dos Servidores</title>
+
+</head>
+
+
+<style>
+  .data-filter{
+    max-width: 200px;
+    margin-left: 10px;
+  }
+
+  .matricula-filter{
+    max-width: 200px;
+    margin-left: 10px;
+  }
+
+  .btn-filter{
+    margin-right: 1825px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+</style>
+
+<div class="menu-bar">
+  <div class="outros-botoes">
+
+    <div class="usuario-barra">
+      {% if user.is_authenticated %}
+      <span>Bem-vindo(a), {{ user.username }}</span>
+      <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+
+      <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Sistemas
+          </button>
+          <ul class="dropdown-menu">
+            <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
+            <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
+            <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
+            <li><button class="dropdown-item" onclick="window.location.href='/download_pdf'">Baixar PDF</button></li>
+            {% if user.is_authenticated and user.is_superuser %}
+            <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+            {% endif %}
+          </ul>
+        </div>
+        
+        <form method="post" action="{% url 'logout' %}">
+          <a href="{% url 'home' %}" class="home-btn">
+            <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+          </a>
+          {% csrf_token %}
+          <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout" onclick="this.closest('form').submit()">
+        </form>
+        
+        
+        
+      </div>
+      <div class="container-fluid text-center">
+        <button class="btn btn-primary btn-filter" onclick="toggleFilters()">Filtragem</button>
+  </div>
+    
+      
+   
+  {% endif %}
+</div>
+
+
+
+  <div id="filtroContainer" style="display: none;">
+    <div class="mb-3 d-flex justify-content-start">
+      <label for="searchInput" class="form-label">Pesquisar por Nome:</label>
+      <input type="text" class="form-control" id="searchInput" oninput="filterServidores()">
+    </div>
+
+    <div class="mb-3 d-flex justify-content-start">
+      <label for="dateInput" class="form-label">Filtrar por Data:</label>
+      <input type="date" class="form-control data-filter" id="dateInput" oninput="filterData()">
+    </div>
+
+    <div class="mb-3 d-flex justify-content-start">
+      <label for="matriculaInput" class="form-label">Filtrar por Matrícula:</label>
+      <input type="text" class="form-control matricula-filter" id="matriculaInput" oninput="filterMatricula()">
+    </div>
+  </div>
+    
+    
+    <img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
+    
+    <table id="tabelaServidores" class="table table-bordered table-auto small-font text-center">
+      <thead>
+        <tr>
+          <th class="nome-coluna" style="width: 2%;"> Nome do Servidor</th>
+          <th class="setor-coluna"> Setor </th>
+          <th class="escala-coluna">Escala</th>
+          <th class="matricula-coluna">Mat.</th>
+          <th class="pontualidade-coluna">Pontualidade</th>
+          <th class="assiduidade-coluna">Assiduidade</th>
+          <th class="exec-coluna">Exec. Tarefas</th>
+          <th class="iniciativa-coluna">Iniciativa</th>
+          <th class="servicos-coluna">At. Serviços</th>
+          <th class="pontos-coluna">Total Pontos</th>
+          <th class="data-coluna"> Data Referente</th>
+          <th class="acoes-coluna">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for servidor in servidores %}
+        <tr>
+          <td class="text-center">{{ servidor.nome }}</td>
+          <td class="text-center"> {{ servidor.setor }}</td>
+          <td class="text-center">{{ servidor.escala }}</td>
+          <td class="text-center">{{ servidor.matricula }}</td>
+          <td class="text-center">{{ servidor.pontualidade }}</td>
+          <td class="text-center">{{ servidor.assiduidade }}</td>
+          <td class="text-center">{{ servidor.execucao_tarefas }}</td>
+          <td class="text-center">{{ servidor.iniciativa }}</td>
+          <td class="text-center">{{ servidor.atendimento_servicos }}</td>
+          <td class="text-center">{{ servidor.total_pontos }}</td>
+          <td class="text-center">{{ servidor.mes_referencia }}</td>
+          <td>
+            <div class="d-flex botoes-acoes">
+              
+              <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary icon-azul">
+               <img src="https://simpleicon.com/wp-content/uploads/pencil-256x256.png" class="lapis-icon" alt="Icone Lapis">
+              </a>
+              <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger mr-2">
+                <img src="https://cdn-icons-png.flaticon.com/512/542/542724.png" class="lixo-icon" alt="Icone Lixeira">
+              </a>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/cadastrar_pessoa.css' %}">
+
+    <title>Cadastrar Pessoa</title>
+    
+</head>
+<div class="usuario-barra">
+  {% if user.is_authenticated %}
+  <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
+  <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+  
+  
+  <div class="menubar">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Sistemas
+    </button>
+
+
+    
+    
+    <ul class="dropdown-menu">
+      
+      <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de
+        Consulta de Lançamentos</button></li>
+        <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de
+          Cadastro de Pessoa</button></li>
+          
+          <button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button>
+          {% if user.is_authenticated and user.is_superuser %}
+          
+          <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+    <form method="post" action="{% url 'logout' %}">
+      <a href="{% url 'home' %}" class="home-btn">
+        <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+      </a>
+      {% csrf_token %}
+      <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout" onclick="this.closest('form').submit()">
+    </form>
+  </div>
+<body>
+
+
+
+    <h1>Cadastrar Pessoa</h1>
+    <form method="post" action="{% url 'cadastrar_pessoa' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

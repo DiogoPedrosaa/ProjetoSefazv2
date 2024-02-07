@@ -1,0 +1,63 @@
+.navbar-brand {
+    text-align: center;
+    width: 100%;
+}
+
+.container {
+    max-width: 800px;
+    /* Limitando a largura do conteúdo para torná-lo mais centrado */
+}
+
+.form-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.usuario-barra {
+  background-color: #3498db;
+  padding: 10px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  /* Alterado para flex-direction: column */
+  align-items: flex-start;
+  /* Alinhado à esquerda */
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 25px;
+}
+
+.usuario-barra span {
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.usuario-barra form {
+display: flex;
+align-items: center;
+}
+
+.usuario-barra img {
+width: 30px; /* Ajuste o tamanho conforme necessário */
+height: 30px; /* Ajuste o tamanho conforme necessário */
+cursor: pointer; /* Adiciona um cursor indicando que é clicável */
+margin-right: 325px;
+
+}
+
+.home-btn img {
+width: 40px; /* Defina a largura desejada */
+height: 40px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
+max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+margin-right: 0;
+}
+
+.text-center{
+margin-left: 90px;
+}
+
+.text-center{
+  margin-top: 130px;
+}

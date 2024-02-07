@@ -1,0 +1,73 @@
+body {
+    background-color: #06325e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+    margin: 0;
+    flex-direction: column;
+    background: url('https://supe.maceio.al.gov.br/siimm-semge/imgs/background_login.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+
+.form-container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(225, 225, 225, 0.1);
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+    color: #007bff;
+}
+
+
+label {
+    font-weight: bold;
+    color: #007bff;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.btn-primary {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.logo-container img {
+width: 500px; /* ou qualquer porcentagem desejada */
+height: 350px; /* Isso manterá a proporção da largura em relação à altura */
+position: relative;
+}

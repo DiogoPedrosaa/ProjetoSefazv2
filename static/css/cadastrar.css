@@ -1,0 +1,163 @@
+.container {
+    background-color: #fdfdfdbd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between; /* Alterado para space-between para colocar o espaço entre os elementos */
+    align-items: center; /* Alinhado ao centro para centralizar o conteúdo */
+    max-width: 900px;
+  }
+
+  .form-container {
+    flex-grow: 1;
+    margin-right: 5px; /* Adicionado margem direita para separar do lado direito */
+    margin-top: -70px;
+  }
+
+  .form-container,
+  .table-container {
+    width: 80%; /* Ajustado a largura para ocupar 100% da largura do container */
+    max-width: 250px; /* Adicionado um valor máximo para evitar que as tabelas fiquem muito largas */
+    margin-top: -26px;
+  }
+
+  .table-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pontualidade-table,
+  .assiduidade-table,
+  .exec-tarefas-table,
+  .iniciativa-table,
+  .at-servicos-table {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 5px; /* Alterado o padding para reduzir o tamanho */
+    margin-bottom: -2px; /* Reduzido o espaçamento inferior */
+    margin-top: 10px;
+    font-size: 15px; /* Tamanho da fonte reduzido */
+    
+  }
+
+  .container h1 {
+    margin-bottom: 15px; /* Reduzido o espaçamento inferior do título */
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 5px; /* Reduzido o espaçamento inferior do formulário */
+    margin-top: 10px;
+  }
+
+  .btn-primary {
+    margin-right: 15px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .btn-primary:hover {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .custom-label {
+    
+    color: #000000;
+  }
+
+  .pontualidade-table th,
+  .pontualidade-table td,
+  .assiduidade-table th,
+  .assiduidade-table td,
+  .exec-tarefas-table th,
+  .exec-tarefas-table td,
+  .iniciativa-table th,
+  .iniciativa-table td,
+  .at-servicos-table th,
+  .at-servicos-table td {
+    text-align: center;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 5px; /* Espaçamento entre os botões */
+}
+
+  /*body {
+     background: url('https://supe.maceio.al.gov.br/siimm-semge/imgs/background_login.jpg') no-repeat center center fixed;
+  background-size: cover;
+  https://supe.maceio.al.gov.br/siimm-semge/imgs/background_login.jpg
+ } */
+
+ .custom-btn {
+  background-color: #001d30; /* Substitua pela cor desejada */
+  color: #fff; /* Cor do texto nos botões */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-btn:hover {
+  background-color: #2ecc71; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do texto ao passar o mouse */
+}
+
+.usuario-barra {
+      background-color: #3498db;
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      /* Alterado para flex-direction: column */
+      align-items: flex-start;
+      /* Alinhado à esquerda */
+      font-family: 'Arial', sans-serif;
+    }
+
+    .usuario-barra span {
+      font-weight: bold;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .usuario-barra form {
+    display: flex;
+    align-items: center;
+  }
+
+  .usuario-barra img {
+    width: 30px; /* Ajuste o tamanho conforme necessário */
+    height: 30px; /* Ajuste o tamanho conforme necessário */
+    cursor: pointer; /* Adiciona um cursor indicando que é clicável */
+  }
+
+  .usuario-barra form a.logout-btn {
+  margin-right: 30px !important; /* Ajuste a margem conforme necessário */
+  cursor: pointer; /* Adiciona um cursor indicando que é clicável */
+}
+
+.sugestoes-container {
+  position: absolute;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  right: 150px; /* Adicione a propriedade right para posicionar à direita */
+}
+
+  .sugestao-nome {
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .sugestao-nome:hover {
+    background-color: #2ecc71;
+    color: #fff;
+  }
