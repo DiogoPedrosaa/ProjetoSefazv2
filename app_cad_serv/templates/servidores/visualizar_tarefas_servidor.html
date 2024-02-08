@@ -134,28 +134,31 @@ p {
                 </div>
             </div>
         </div>
-        <h2 class="mt-4">Relatório Das Tarefas Executadas:</h2>
+        <h3 class="mt-4">Relatório Das Tarefas Executadas:</h3>
         <ul>
             {% for tarefa in tarefas %}
             <li>
                 {{ tarefa.tarefas|linebreaksbr }}
                 
-                <form method="post" action="{% url 'excluir_tarefa' tarefa.id %}" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm ml-2">
-                        <i class="fas fa-trash"></i> Excluir
-                    </button>
-                </form>
             </li>
             <p></p>
             <li>
                 Data: {{ tarefa.data }}
             </li>
+            <form method="post" action="{% url 'excluir_tarefa' tarefa.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm ml-2">
+                    <i class="fas fa-trash"></i> Excluir
+                </button>
+            </form>
             <hr>
             <p></p>
             {% empty %}
             <p>Nenhuma tarefa registrada para este servidor.</p>
             {% endfor %}
+            
+        
+
         </ul>
 
     </div>

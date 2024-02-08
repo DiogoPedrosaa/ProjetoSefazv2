@@ -230,7 +230,8 @@ def preencher_tarefas(request, servidor_id):
             tarefa.colaborador = servidor.nome
             tarefa.diretor_coordenador = form.cleaned_data['diretor_coordenador']
             tarefa.save()
-            return redirect('dados_servidor')
+            messages.success(request, 'Tarefas Enviadas com Sucesso!')
+            return redirect('preencher_tarefas', servidor_id = servidor_id)
 
     else:
         form = TarefaRealizadaForm(initial={'colaborador': servidor.nome})
@@ -489,6 +490,8 @@ def login_page(request):
     return render(request, 'servidores/login.html', {'form': form})
 
 
+
+
 @login_required
 def cadastrar_usuario(request):
     if request.method == 'POST':
@@ -540,7 +543,6 @@ def dashboard(request):
     
     num_servidores_ti = Servidor.objects.filter(setor='TI').count()
     num_servidores_rh = Servidor.objects.filter(setor='RH').count()
-    # Adicione mais lógica conforme necessário para obter outras estatísticas
 
     context = {
         'total_pessoas': total_pessoas,
@@ -549,7 +551,6 @@ def dashboard(request):
         'num_servidores_ti': num_servidores_ti,
         'num_servidores_rh': num_servidores_rh,
         'total_usuarios': total_usuarios,
-        # Adicione mais variáveis de contexto conforme necessário
     }
 
     return render(request, 'servidores/dashboard.html', context)
@@ -561,7 +562,6 @@ def excluir_tarefa(request, tarefa_id):
     tarefa = get_object_or_404(TarefaRealizada, pk=tarefa_id)
     try:
         tarefa.delete()
-        messages.success(request, 'Tarefa excluída com sucesso!')
     except Exception as e:
         messages.error(request, f'Ocorreu um erro ao excluir a tarefa: {str(e)}')
 
