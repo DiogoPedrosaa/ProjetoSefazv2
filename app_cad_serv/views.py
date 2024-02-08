@@ -227,7 +227,7 @@ def preencher_tarefas(request, servidor_id):
         form = TarefaRealizadaForm(request.POST)
         if form.is_valid():
             tarefa = form.save(commit=False)
-            tarefa.servidor = servidor  # Agora atribuímos diretamente o objeto Servidor à chave estrangeira
+            tarefa.servidor = servidor  
             tarefa.diretor_coordenador = form.cleaned_data['diretor_coordenador']
             tarefa.save()
             messages.success(request, 'Tarefas Enviadas com Sucesso!')
@@ -558,7 +558,6 @@ def dashboard(request):
     return render(request, 'servidores/dashboard.html', context)
 
 
-# já tentei resgatar id do servidor e passar no return, já tentei fazer alguma verificação se o id da tarefa é valida e se não, resgatar os dados do servidor, mas nada adianta. sempre os dados somem.
 
 @login_required
 def excluir_tarefa(request, tarefa_id):
@@ -568,4 +567,4 @@ def excluir_tarefa(request, tarefa_id):
     except Exception as e:
         messages.error(request, f'Ocorreu um erro ao excluir a tarefa: {str(e)}')
 
-    return render(request, 'servidores/visualizar_tarefas_servidor.html', {'tarefas': TarefaRealizada.objects.all()})
+    return redirect('visualizar_tarefas_servidor', servidor_id=tarefa.servidor.id)

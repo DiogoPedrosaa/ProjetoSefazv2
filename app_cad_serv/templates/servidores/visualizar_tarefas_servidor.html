@@ -156,10 +156,10 @@ p {
             {% empty %}
             <p>Nenhuma tarefa registrada para este servidor.</p>
             {% endfor %}
-            
-        
-
         </ul>
+        <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary">
+            <i class="fas fa-eye"></i> Preencher Tarefas
+          </a>
 
     </div>
 
