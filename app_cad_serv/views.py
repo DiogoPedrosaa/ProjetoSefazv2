@@ -236,7 +236,7 @@ def preencher_tarefas(request, servidor_id):
     else:
         form = TarefaRealizadaForm(initial={'colaborador': servidor.nome})
 
-    
+    # Modificação para incluir a data do lançamento do servidor não funcionou este caralho.
     tarefas_servidor = TarefaRealizada.objects.filter(data=servidor.mes_referencia)
 
     return render(request, 'servidores/preencher_tarefas.html', {'form': form, 'servidor': servidor, 'servidor_id': servidor_id, 'tarefas_servidor': tarefas_servidor})
