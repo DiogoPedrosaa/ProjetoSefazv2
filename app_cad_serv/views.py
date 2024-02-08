@@ -231,13 +231,15 @@ def preencher_tarefas(request, servidor_id):
             tarefa.diretor_coordenador = form.cleaned_data['diretor_coordenador']
             tarefa.save()
             messages.success(request, 'Tarefas Enviadas com Sucesso!')
-            return redirect('preencher_tarefas', servidor_id = servidor_id)
+            return redirect('preencher_tarefas', servidor_id=servidor_id)
 
     else:
         form = TarefaRealizadaForm(initial={'colaborador': servidor.nome})
 
-    return render(request, 'servidores/preencher_tarefas.html', {'form': form, 'servidor': servidor, 'servidor_id': servidor_id})
+    
+    tarefas_servidor = TarefaRealizada.objects.filter(data=servidor.mes_referencia)
 
+    return render(request, 'servidores/preencher_tarefas.html', {'form': form, 'servidor': servidor, 'servidor_id': servidor_id, 'tarefas_servidor': tarefas_servidor})
 
 
 @login_required
@@ -556,6 +558,7 @@ def dashboard(request):
     return render(request, 'servidores/dashboard.html', context)
 
 
+# já tentei resgatar id do servidor e passar no return, já tentei fazer alguma verificação se o id da tarefa é valida e se não, resgatar os dados do servidor, mas nada adianta. sempre os dados somem.
 
 @login_required
 def excluir_tarefa(request, tarefa_id):
