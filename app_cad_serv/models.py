@@ -146,7 +146,7 @@ class Servidor(models.Model):
 
      
 class TarefaRealizada(models.Model):
-    colaborador = models.CharField(max_length=150)
+    servidor = models.ForeignKey(Servidor, on_delete=models.CASCADE, null=True)
     diretor_coordenador = models.CharField(max_length=100, null=False)
     tarefas = models.TextField()
     data = models.DateTimeField(auto_now_add=True)

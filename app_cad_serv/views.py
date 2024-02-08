@@ -227,7 +227,7 @@ def preencher_tarefas(request, servidor_id):
         form = TarefaRealizadaForm(request.POST)
         if form.is_valid():
             tarefa = form.save(commit=False)
-            tarefa.colaborador = servidor.nome
+            tarefa.servidor = servidor  # Agora atribuímos diretamente o objeto Servidor à chave estrangeira
             tarefa.diretor_coordenador = form.cleaned_data['diretor_coordenador']
             tarefa.save()
             messages.success(request, 'Tarefas Enviadas com Sucesso!')
@@ -236,8 +236,7 @@ def preencher_tarefas(request, servidor_id):
     else:
         form = TarefaRealizadaForm(initial={'colaborador': servidor.nome})
 
-    # Modificação para incluir a data do lançamento do servidor não funcionou este caralho.
-    tarefas_servidor = TarefaRealizada.objects.filter(data=servidor.mes_referencia)
+    tarefas_servidor = TarefaRealizada.objects.filter(servidor=servidor, data=servidor.mes_referencia)
 
     return render(request, 'servidores/preencher_tarefas.html', {'form': form, 'servidor': servidor, 'servidor_id': servidor_id, 'tarefas_servidor': tarefas_servidor})
 
@@ -245,8 +244,9 @@ def preencher_tarefas(request, servidor_id):
 @login_required
 def visualizar_tarefas_servidor(request, servidor_id):
     servidor = get_object_or_404(Servidor, pk=servidor_id)
-    tarefas = TarefaRealizada.objects.filter(colaborador=servidor.nome)
-    return render(request, 'servidores/visualizar_tarefas_servidor.html', {'servidor': servidor, 'tarefas': tarefas, 'matricula': servidor.matricula})
+    tarefas = TarefaRealizada.objects.filter(servidor=servidor)
+    tarefas_servidor = TarefaRealizada.objects.filter(data=servidor.mes_referencia)
+    return render(request, 'servidores/visualizar_tarefas_servidor.html', {'servidor': servidor, 'tarefas': tarefas, 'matricula': servidor.matricula, 'tarefas_servidor': tarefas_servidor})
 
 
 @login_required
