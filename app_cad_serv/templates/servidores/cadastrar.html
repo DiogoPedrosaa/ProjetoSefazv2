@@ -54,6 +54,7 @@
       </div>
       <div class="button-container">
         <button type="submit" class="btn btn-primary custom-btn">Confirmar</button>
+        <button type="button" class="btn btn-secondary custom-btn" id="limpar-opcoes">Limpar Opções</button>
       </div>
     </form>
   </div>
@@ -223,6 +224,15 @@ $('#formularioCadastro').submit(function () {
   return validarFormulario();
 })
 });
+
+$('#limpar-opcoes').click(function () {
+      // Resetando os valores do formulário
+      $('#formularioCadastro')[0].reset();
+
+      // Também redefina o total de pontos para 0
+      $('#pontos-total').text('0');
+    });
+
   $(document).ready(function () {
 
     $('#id_nome').on('input', function () {

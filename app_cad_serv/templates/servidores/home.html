@@ -12,219 +12,177 @@
   <script src="http://127.0.0.1:8000/api/api-pessoas/"></script>
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
-  
   <title>Pagina Inicial</title>
 </head>
 
-
 <body>
-
-  
-    <div class="usuario-barra">
-      {% if user.is_authenticated %}
-      <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
-      <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
-      
-      
-      <div class="menubar">
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+  <div class="usuario-barra">
+    {% if user.is_authenticated %}
+    <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
+    <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+    <div class="menubar">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
           Sistemas
         </button>
-
-
-        
-        
         <ul class="dropdown-menu">
-          
           <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de
-            Consulta de Lançamentos</button></li>
-              
-              <button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button>
-              {% if user.is_authenticated and user.is_superuser %}
-              <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de
-                Cadastro de Pessoa</button></li>
-              
-              <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-        {% endif %}
-        <form method="post" action="{% url 'logout' %}">
-          
-          {% csrf_token %}
-          <a href="" class="home-btn">
-            <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
-          </a>
-          <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout" class="logout-btn"
-          onclick="this.closest('form').submit()">
-        </form>
+              Consulta de Lançamentos</button></li>
+          <button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button>
+          {% if user.is_authenticated and user.is_superuser %}
+          <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de
+              Cadastro de Pessoa</button></li>
+          <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+          {% endif %}
+        </ul>
       </div>
-      <div class="version-text">
-        <a>Versão: 4.13.8-Beta </a>
-      </div>
-      
-    <div id="mensagem-sucesso" style="color: green;"></div>
-    
-    
-    <div id="conteudo"></div>
-    
-    <div class="imagem-fundo">
+    </div>
+    {% endif %}
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <a href="" class="home-btn">
+        <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+      </a>
+      <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout" class="logout-btn"
+        onclick="this.closest('form').submit()">
+    </form>
+  </div>
+  <div class="version-text">
+    <a>Versão: 4.13.8-Beta </a>
+  </div>
+  <div id="mensagem-sucesso-form" style="color: green;"></div>
+  <div id="conteudo"></div>
+
+  <div class="imagem-fundo">
     <img src="https://i.imgur.com/HG39ROC.png" alt="Imagem Fundo">
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-  crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
-  integrity="sha384-k6RqeZHzndpKXik3bR6qzGk65t0sIVMlXM6ZfPTAMN9ShELI6Z6C5x5kI7AvtqH2"
-  crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    integrity="sha384-k6RqeZHzndpKXik3bR6qzGk65t0sIVMlXM6ZfPTAMN9ShELI6Z6C5x5kI7AvtqH2"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-  function configurarSugestaoNomes() {
-  $('#id_nome').on('input', function () {
-    var inputNome = $(this).val().toLowerCase();
-
-    if (inputNome.trim() === '') {
-      $('#sugestoes-container').hide();
-      return;
-    }
-
-    $.ajax({
-      url: '/api/api-pessoas/',
-      success: function (nomes) {
-        var sugestoes = nomes.filter(function (pessoa) {
-          return pessoa.nome.toLowerCase().includes(inputNome);
-        });
-
-        var sugestoesContainer = $('#sugestoes-container');
-        sugestoesContainer.empty();
-
-        if (sugestoes.length > 0) {
-          sugestoesContainer.show();
-        } else {
-          sugestoesContainer.hide();
+  <script>
+    function configurarSugestaoNomes() {
+      $('#id_nome').on('input', function () {
+        var inputNome = $(this).val().toLowerCase();
+        if (inputNome.trim() === '') {
+          $('#sugestoes-container').hide();
+          return;
         }
 
-        sugestoes.forEach(function (pessoa) {
-          var sugestaoDiv = $('<div class="sugestao-nome">' + pessoa.nome + '</div>');
-          sugestaoDiv.click(function () {
-            $('#id_nome').val(pessoa.nome);
-            $('#id_matricula').val(pessoa.pessoa_mat);
-            sugestoesContainer.empty().hide();
-          });
-          sugestoesContainer.append(sugestaoDiv);
-        });
-      }
-    });
-  });
-}
+        $.ajax({
+          url: '/api/api-pessoas/',
+          success: function (nomes) {
+            var sugestoes = nomes.filter(function (pessoa) {
+              return pessoa.nome.toLowerCase().includes(inputNome);
+            });
 
-function inicializarCalculoPontos() {
-    $('#formularioCadastro select').change(function () {
-      calcularTotalPontos();
-    });
-  }
+            var sugestoesContainer = $('#sugestoes-container');
+            sugestoesContainer.empty();
 
-  function calcularTotalPontos() {
-    var totalPontos = 0;
+            if (sugestoes.length > 0) {
+              sugestoesContainer.show();
+            } else {
+              sugestoesContainer.hide();
+            }
 
-    var pontuacoes = {
-      '30': 30,
-      '20': 20,
-      '15': 15,
-      '10': 10,
-      '05': 5,
-      '08': 8,
-      '04': 4,
-      '02': 2,
-    };
-
-
-    $('#formularioCadastro select').each(function () {
-      var escolha = $(this).val();
-      totalPontos += pontuacoes[escolha] || 0;
-    });
-
-
-    $('#pontos-total').text(totalPontos);
-  }
-
-
-$(document).ready(function () {
-  configurarSugestaoNomes();
-
-var conteudoAberto = false; // Variável para controlar o estado do conteúdo
-
-document.getElementById('btnSistemaLancamento').addEventListener('click', function () {
-  if (conteudoAberto) {
-    // Se o conteúdo estiver aberto, fecha a página
-    document.getElementById('conteudo').innerHTML = '';
-    conteudoAberto = false;
-  } else {
-    
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            // Atualiza a div com o conteúdo compacto retornado pela view
-            document.getElementById('conteudo').innerHTML = this.responseText;
-            // Adiciona estilos à div para reduzir o tamanho
-            document.getElementById('conteudo').style.padding = '5px'; // Adapte conforme necessário
-            document.getElementById('conteudo').style.fontSize = '14px'; // Adapte conforme necessário
-            conteudoAberto = true; // Atualiza o estado para indicar que o conteúdo está aberto
-            configurarSugestaoNomes(); // Chama a função após carregar o novo conteúdo
-            inicializarCalculoPontos();
-          
-            
-            
-            var form = document.getElementById('formularioCadastro'); 
-            form.addEventListener('submit', function (event) {
-              event.preventDefault(); 
-              
-              
-              var formData = new FormData(form);
-              
-              var xhttpForm = new XMLHttpRequest();
-              xhttpForm.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                  document.getElementById('mensagem-sucesso').innerHTML = 'Formulário enviado com sucesso!';
-                  console.log(this.responseText);
-                }
-              };
-              
-              xhttpForm.open('POST', '/cadastrar/', true); 
-              xhttpForm.send(formData);
+            sugestoes.forEach(function (pessoa) {
+              var sugestaoDiv = $('<div class="sugestao-nome">' + pessoa.nome + '</div>');
+              sugestaoDiv.click(function () {
+                $('#id_nome').val(pessoa.nome);
+                $('#id_matricula').val(pessoa.pessoa_mat);
+                sugestoesContainer.empty().hide();
+              });
+              sugestoesContainer.append(sugestaoDiv);
             });
           }
-        };
-        xhttp.open('GET', 'cadastrar', true);
-        xhttp.send();
-      }
-      
+        });
+      });
+    }
+
+    function inicializarCalculoPontos() {
+      $('#formularioCadastro select').change(function () {
+        calcularTotalPontos();
+      });
+    }
+
+    function calcularTotalPontos() {
+      var totalPontos = 0;
+
+      var pontuacoes = {
+        '30': 30,
+        '20': 20,
+        '15': 15,
+        '10': 10,
+        '05': 5,
+        '08': 8,
+        '04': 4,
+        '02': 2,
+      };
+
+      $('#formularioCadastro select').each(function () {
+        var escolha = $(this).val();
+        totalPontos += pontuacoes[escolha] || 0;
+      });
+
+      $('#pontos-total').text(totalPontos);
+    }
+
+    $(document).ready(function () {
+      configurarSugestaoNomes();
+
+      var conteudoAberto = false;
+      document.getElementById('btnSistemaLancamento').addEventListener('click', function () {
+        if (conteudoAberto) {
+          document.getElementById('conteudo').innerHTML = '';
+          conteudoAberto = false;
+        } else {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById('conteudo').innerHTML = this.responseText;
+              document.getElementById('conteudo').style.padding = '5px';
+              document.getElementById('conteudo').style.fontSize = '14px';
+              conteudoAberto = true;
+              configurarSugestaoNomes();
+              inicializarCalculoPontos();
+
+              var form = document.getElementById('formularioCadastro');
+              form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var formData = new FormData(form);
+                var xhttpForm = new XMLHttpRequest();
+                xhttpForm.onreadystatechange = function () {
+                  if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('mensagem-sucesso-form').innerHTML = 'Formulário enviado com sucesso!';
+                    console.log(this.responseText);
+                  }
+                };
+                xhttpForm.open('POST', '/cadastrar/', true);
+                xhttpForm.send(formData);
+              });
+
+              // Adicione o seguinte trecho para lidar com o botão de limpar formulário
+              $('#formularioCadastro #limpar-opcoes').click(function () {
+                // Resetando os valores do formulário
+                $('#formularioCadastro')[0].reset();
+
+                // Também redefina o total de pontos para 0
+                $('#pontos-total').text('0');
+              });
+            }
+          };
+          xhttp.open('GET', 'cadastrar', true);
+          xhttp.send();
+        }
+      });
     });
-  }); 
-
-  
-</script>
-
-
-    
+  </script>
 </body>
 
 </html>
-  
