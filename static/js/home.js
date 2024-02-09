@@ -24,7 +24,7 @@ function configurarSugestaoNomes() {
         }
 
         sugestoes.forEach(function (pessoa) {
-          var sugestaoDiv = $('<div class="sugestao-nome">' + pessoa.nome + ' - ' + pessoa.pessoa_mat + '</div>');
+          var sugestaoDiv = $('<div class="sugestao-nome">' + pessoa.nome + '</div>');
           sugestaoDiv.click(function () {
             $('#id_nome').val(pessoa.nome);
             $('#id_matricula').val(pessoa.pessoa_mat);
@@ -36,6 +36,36 @@ function configurarSugestaoNomes() {
     });
   });
 }
+
+function inicializarCalculoPontos() {
+    $('#formularioCadastro select').change(function () {
+      calcularTotalPontos();
+    });
+  }
+
+  function calcularTotalPontos() {
+    var totalPontos = 0;
+
+    var pontuacoes = {
+      '30': 30,
+      '20': 20,
+      '15': 15,
+      '10': 10,
+      '05': 5,
+      '08': 8,
+      '04': 4,
+      '02': 2,
+    };
+
+
+    $('#formularioCadastro select').each(function () {
+      var escolha = $(this).val();
+      totalPontos += pontuacoes[escolha] || 0;
+    });
+
+
+    $('#pontos-total').text(totalPontos);
+  }
 
 
 $(document).ready(function () {
@@ -60,6 +90,7 @@ document.getElementById('btnSistemaLancamento').addEventListener('click', functi
             document.getElementById('conteudo').style.fontSize = '14px'; // Adapte conforme necessário
             conteudoAberto = true; // Atualiza o estado para indicar que o conteúdo está aberto
             configurarSugestaoNomes(); // Chama a função após carregar o novo conteúdo
+            inicializarCalculoPontos();
           
             
             
@@ -89,3 +120,5 @@ document.getElementById('btnSistemaLancamento').addEventListener('click', functi
       
     });
   }); 
+
+  
