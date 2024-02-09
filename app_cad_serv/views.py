@@ -76,7 +76,7 @@ def dados_servidor(request):
         user_group = request.user.groups.first().name
 
     if user_group:
-        if user_group == 'T.I' or user_group == 'RH':
+        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
            
             servidores = Servidor.objects.filter(setor=user_group)
         else:
@@ -257,7 +257,7 @@ def generate_pdf(request):
         user_group = request.user.groups.first().name
 
     if user_group:
-        if user_group == 'T.I' or user_group == 'RH':
+        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
             servidores = Servidor.objects.filter(setor=user_group)
         else:
             servidores = Servidor.objects.filter(user=request.user)
@@ -345,7 +345,7 @@ def generate_pdf_geral(request):
         user_group = request.user.groups.first().name
 
     if user_group:
-        if user_group == 'T.I' or user_group == 'RH':
+        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
             servidores = Servidor.objects.filter(setor=user_group)
         else:
             servidores = Servidor.objects.filter(user=request.user)
@@ -455,11 +455,11 @@ def dados_servidor_geral(request):
         user_group = request.user.groups.first().name
 
     if user_group:
-        if user_group == 'T.I' or user_group == 'RH':
-            # Busca todos os servidores do mesmo setor do usuário logado
+        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
+            
             servidores = Servidor.objects.filter(setor=user_group)
         else:
-            # Lógica para outros grupos, se necessário
+            
             servidores = Servidor.objects.filter(user=request.user)
 
     return render(request, 'servidores/dados_servidor_geral.html', {'servidores': servidores, 'user_group': user_group})
@@ -473,7 +473,7 @@ def login_page(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             
-            # Adicione mensagens de log para entender o que está sendo enviado para authenticate
+            
             logger.debug(f'Username: {username}')
             logger.debug(f'Password: {password}')
 
@@ -484,7 +484,7 @@ def login_page(request):
             else:
                 messages.error(request, 'Credenciais inválidas. Por favor, tente novamente.')
         else:
-            # Adicione uma mensagem de log para identificar possíveis problemas
+            
             logger.error(f'Formulário inválido: {form.errors}')
     else:
         form = AuthenticationForm()

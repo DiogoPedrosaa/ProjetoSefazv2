@@ -71,3 +71,10 @@ width: 500px; /* ou qualquer porcentagem desejada */
 height: 350px; /* Isso manterá a proporção da largura em relação à altura */
 position: relative;
 }
+
+.eye-icon {
+    max-width: 20%;
+    max-height: 20%;
+    margin-left: 300px;
+    margin-bottom: 0px;
+}

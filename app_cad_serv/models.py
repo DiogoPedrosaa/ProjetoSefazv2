@@ -97,6 +97,7 @@ class Servidor(models.Model):
         ('', ''),
         ('T.I', 'T.I'),
         ('RH', 'RH'),
+        ('CAF', 'CAF')
     ]
     
     def calcular_valor_escala(self):
