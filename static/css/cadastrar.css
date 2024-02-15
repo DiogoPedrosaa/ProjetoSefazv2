@@ -95,13 +95,13 @@
  } */
 
  .custom-btn {
-  background-color: #001d30; /* Substitua pela cor desejada */
+  background-color: #3498db; /* Substitua pela cor desejada */
   color: #fff; /* Cor do texto nos botões */
   transition: background-color 0.3s, color 0.3s;
 }
 
 .custom-btn:hover {
-  background-color: #2ecc71; /* Cor de fundo ao passar o mouse */
+  background-color: #0040c9; /* Cor de fundo ao passar o mouse */
   color: #fff; /* Cor do texto ao passar o mouse */
 }
 

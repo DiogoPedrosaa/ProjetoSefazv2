@@ -11,8 +11,22 @@
     integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
   <script src="http://127.0.0.1:8000/api/api-pessoas/"></script>
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <style>
+    #mensagem-sucesso-form {
+      display: none;
+      background-color: #d4edda;
+      padding: 10px;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      margin-top: 10px;
+      color: #155724;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
   <title>Pagina Inicial</title>
+
+
 </head>
 
 <body>
@@ -22,8 +36,7 @@
     <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
     <div class="menubar">
       <div class="btn-group">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-          aria-expanded="false">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           Sistemas
         </button>
         <ul class="dropdown-menu">
@@ -67,6 +80,9 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <script>
+
+    var mensagemSucessoForm = $('#mensagem-sucesso-form');
+
     function configurarSugestaoNomes() {
       $('#id_nome').on('input', function () {
         var inputNome = $(this).val().toLowerCase();
@@ -159,20 +175,23 @@
                 var xhttpForm = new XMLHttpRequest();
                 xhttpForm.onreadystatechange = function () {
                   if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('mensagem-sucesso-form').innerHTML = 'Formulário enviado com sucesso!';
+                    // Exibe a mensagem de sucesso e redefine o formulário
+                    mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
                     console.log(this.responseText);
+                    form.reset();
+                    $('#pontos-total').text('0');
                   }
                 };
                 xhttpForm.open('POST', '/cadastrar/', true);
                 xhttpForm.send(formData);
               });
 
-              // Adicione o seguinte trecho para lidar com o botão de limpar formulário
+
               $('#formularioCadastro #limpar-opcoes').click(function () {
-                // Resetando os valores do formulário
+
                 $('#formularioCadastro')[0].reset();
 
-                // Também redefina o total de pontos para 0
+
                 $('#pontos-total').text('0');
               });
             }

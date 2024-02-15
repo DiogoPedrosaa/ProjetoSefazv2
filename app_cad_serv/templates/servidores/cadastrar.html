@@ -28,16 +28,26 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   right: 1050px; 
 }
+
+.custom-btn {
+  background-color: #2177b1; /* Substitua pela cor desejada */
+  color: #fff; /* Cor do texto nos botões */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-btn:hover {
+  background-color: #0040c9; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do texto ao passar o mouse */
+}
+
 </style>
 
 <body>
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+  {% endfor %}
 </body>
 
 <div class="container">
