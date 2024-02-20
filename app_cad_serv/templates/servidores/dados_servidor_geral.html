@@ -121,17 +121,28 @@ margin-left: 1510px;
       <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
-          Sistemas
+          Lançamento
         </button>
         <ul class="dropdown-menu">
-          <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta Dados Servidores</button></li>
          
           <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
           
-          {% if user.is_authenticated and user.is_superuser %}
-          <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-          {% endif %}
         </ul>
+        
+        <div class="btn-group">
+          
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Consulta
+          </button>
+          <ul class="dropdown-menu">
+            
+            <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
+            <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta Dados Geral</button></li>
+            {% if user.is_authenticated and user.is_superuser %}
+            <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+            {% endif %}
+          </ul>
+      </div>
         
           <div class="btn-group">
            

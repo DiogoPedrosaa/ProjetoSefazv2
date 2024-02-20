@@ -88,17 +88,38 @@ p {
               <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  Sistemas
+                  Consulta
                 </button>
                 <ul class="dropdown-menu">
                   <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta De Servidores</button></li>
-                  <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
-                  <li><button class="dropdown-item" onclick="window.location.href='/cadastrar'">Sistema de Lançamento</button></li>
+                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
                   {% if user.is_authenticated and user.is_superuser %}
                   <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
                   {% endif %}
                 </ul>
               </div>
+
+
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Cadastro
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
+                </ul>
+              </div>
+
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Lançamento
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
+                </ul>
+              </div>
+              
         <form method="post" action="{% url 'logout' %}">
 
             <a href="{% url 'home' %}" class="home-btn">
