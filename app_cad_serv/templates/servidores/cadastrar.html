@@ -30,14 +30,14 @@
 }
 
 .custom-btn {
-  background-color: #2177b1; /* Substitua pela cor desejada */
-  color: #fff; /* Cor do texto nos botões */
+  background-color: #2177b1; 
+  color: #fff; 
   transition: background-color 0.3s, color 0.3s;
 }
 
 .custom-btn:hover {
-  background-color: #0040c9; /* Cor de fundo ao passar o mouse */
-  color: #fff; /* Cor do texto ao passar o mouse */
+  background-color: #0040c9; 
+  color: #fff; 
 }
 
 </style>
@@ -52,11 +52,9 @@
 
 <div class="container">
   <div class="form-container">
-    <!-- Adicionado um contêiner para sugestões -->
     <div id="sugestoes-container" class="sugestoes-container"></div>
     <form id = "formularioCadastro" method="post" autocomplete="off">
       {% csrf_token %}
-      <!-- Adicione o campo de matrícula aqui -->
       {{ form.as_p }}
       <div class="form-group">
         <div id="total-pontos">Total de Pontos: <span id="pontos-total">0</span></div>
@@ -215,31 +213,31 @@
 $(document).ready(function () {
 
 
-// Função para verificar se os campos obrigatórios estão preenchidos
+
 function validarFormulario() {
   var nome = $('#id_nome').val();
   var matricula = $('#id_matricula').val();
 
-  // Verifica se os campos obrigatórios estão preenchidos
+
   if (nome.trim() === '' || matricula.trim() === '') {
     alert('Por favor, preencha todos os campos obrigatórios.');
-    return false;  // Impede o envio do formulário
+    return false;  
   }
 
-  return true;  // Permite o envio do formulário se os campos estiverem preenchidos
+  return true;  
 }
 
 $('#formularioCadastro').submit(function () {
-  // Chama a função de validação antes de enviar o formulário
+
   return validarFormulario();
 })
 });
 
 $('#limpar-opcoes').click(function () {
-      // Resetando os valores do formulário
+      
       $('#formularioCadastro')[0].reset();
 
-      // Também redefina o total de pontos para 0
+
       $('#pontos-total').text('0');
     });
 
@@ -299,7 +297,7 @@ $('#limpar-opcoes').click(function () {
     function calcularTotalPontos() {
         var totalPontos = 0;
 
-        // Mapear os campos de escolha para as suas pontuações correspondentes
+     
         var pontuacoes = {
             '30': 30,
             '20': 20,
@@ -312,17 +310,17 @@ $('#limpar-opcoes').click(function () {
             
         };
 
-        // Iterar sobre os campos de escolha e somar as pontuações
+
         $('select').each(function () {
             var escolha = $(this).val();
             totalPontos += pontuacoes[escolha] || 0;
         });
 
-        // Atualizar o elemento HTML que exibe o total de pontos
+
         $('#pontos-total').text(totalPontos);
     }
 
-    // Chamar a função para calcular os pontos iniciais
+
     calcularTotalPontos();
 });
 

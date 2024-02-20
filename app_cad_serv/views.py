@@ -35,7 +35,7 @@ def cadastrar(request):
         form = ServidorForm(request.POST)
         if form.is_valid():
             servidor = form.save(commit=False)
-            servidor.user = request.user  # Associate the server with the logged-in user
+            servidor.user = request.user 
 
             pontos, gratificacao = calcular_pontos(
                 form.cleaned_data['pontualidade'],
@@ -48,19 +48,20 @@ def cadastrar(request):
             servidor.gratificacao_pontos = gratificacao
             
             servidor.save()
+            messages.success(request, 'Lançamento Realizado com Sucesso!')
 
             setor_value = form.cleaned_data['setor']
             mes_referencia_value = form.cleaned_data['mes_referencia']
             
-            # Converter as datas para strings
+
             setor_value = str(setor_value)
             mes_referencia_value = str(mes_referencia_value)
 
-            # Limpar os campos nome e matricula diretamente no formulário
+
             form.cleaned_data['Nome'] = ''
             form.cleaned_data['Matricula'] = ''
 
-            # Adicionar uma mensagem de sucesso (opcional)
+
             messages.success(request, 'Formulário enviado com sucesso!')
 
     else:
@@ -251,7 +252,7 @@ def visualizar_tarefas_servidor(request, servidor_id):
 
 @login_required
 def generate_pdf(request):
-    # Filtra os servidores com base no grupo do usuário autenticado
+   
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
@@ -263,12 +264,13 @@ def generate_pdf(request):
             servidores = Servidor.objects.filter(user=request.user)
     else:
         servidores = Servidor.objects.none()
+        
 
     buffer = BytesIO()
 
     
     custom_page_size = landscape(letter)
-    #Ajusta margens da tabela
+
     doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
     elements = []
 
@@ -278,10 +280,10 @@ def generate_pdf(request):
 
     elements.append(secretaria_paragraph)
 
-    # Defina a largura das colunas na tabela
+
     col_widths = [170, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
 
-    # Crie uma lista de dados para a tabela
+
     data = []
     data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos",])
 
@@ -291,7 +293,7 @@ def generate_pdf(request):
     
     table = Table(data, colWidths=col_widths)
 
-    # Defina estilos para cabeçalhos e células
+
     style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -304,16 +306,16 @@ def generate_pdf(request):
 
 
 
-    # Ajuste o estilo de cada célula (cabeçalho e conteúdo)
+  
     style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
     style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
     style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
     style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
     style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
-    style.add('FONTSIZE', (0, 1), (-1, -1), 8)  #tamanho da fonte 
-    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3)  # Ajusta o preenchimento das células de conteúdo
+    style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
+    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
 
-    # Ajuste a altura mínima das linhas
+
     style.add('LEADING', (0, 1), (-1, -1), 10)
 
     
@@ -326,7 +328,7 @@ def generate_pdf(request):
     
     buffer.seek(0)
 
-    # Crie uma resposta de arquivo para o PDF gerado
+
     response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores.pdf')
 
 
@@ -339,7 +341,7 @@ def generate_pdf(request):
 
 @login_required
 def generate_pdf_geral(request):
-    # Filtra os servidores com base no grupo do usuário autenticado
+ 
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
@@ -387,11 +389,11 @@ def generate_pdf_geral(request):
         data.append([
             servidor.nome,
             servidor.matricula,
-            servidor.gratificacao_formatada(),  # Chame o método para obter o valor real
+            servidor.gratificacao_formatada(),  
             servidor.tipo_escala,
             servidor.tipo_modalidade,
             servidor.escala,
-            servidor.calcular_valor_escala(),  # Chame o método para obter o valor real
+            servidor.calcular_valor_escala(), 
             servidor.total_pontos,
             servidor.id
         ])
@@ -447,7 +449,7 @@ def excluir_servidor(request, servidor_id):
     return redirect('dados_servidor')
 
 
-#Logica para calcular valores especificos das escalas (não funcionando)
+
 @login_required
 def dados_servidor_geral(request):
     user_group = None
@@ -518,6 +520,8 @@ class CustomLogoutView(LogoutView):
         response = super().dispatch(request, *args, **kwargs)
         
         return redirect('home') 
+
+
     
 def cadastrar_pessoa(request):
     if request.method == 'POST':

@@ -31,7 +31,7 @@
 <body>
   <div class="usuario-barra">
     {% if user.is_authenticated %}
-    <span>Bem-vindo(a), {{ user.username }}</span>
+    <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
     <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
     {% endif %}
     <div class="menu-bar">

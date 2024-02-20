@@ -19,7 +19,7 @@
 
 <div class="usuario-barra">
     {% if user.is_authenticated %}
-    <span>Bem-vindo(a), {{ user.username }}</span>
+    <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
     <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
     <form method="post" action="{% url 'logout' %}">
       <a href="{% url 'home' %}" class="home-btn">
@@ -33,7 +33,6 @@
 
     <div class="menu-bar">
       <div class="outros-botoes">
-        <!-- Botão Sistemas Dropdown -->
         <div class="btn-group">
           <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
             aria-expanded="false">

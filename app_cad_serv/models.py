@@ -121,7 +121,7 @@ class Servidor(models.Model):
 
     def gratificacao_formatada(self):
         gratificacao = self.calcular_gratificacao()
-        # Configurar a localização para o Brasil (ou sua localização desejada)
+
         locale.setlocale(locale.LC_ALL, 'pt_BR.utf-8')
         formatted_gratificacao = locale.currency(gratificacao, grouping=True, symbol=None)
         return formatted_gratificacao
@@ -167,7 +167,7 @@ class Usuario(AbstractUser):
             'The groups this user belongs to. A user will get all permissions '
             'granted to each of their groups.'
         ),
-        related_name='usuarios',  # Alterado de 'usuarios_groups' para 'usuarios'
+        related_name='usuarios',  
         related_query_name='usuario',
     )
     user_permissions = models.ManyToManyField(
@@ -175,7 +175,7 @@ class Usuario(AbstractUser):
         verbose_name=_('user permissions'),
         blank=True,
         help_text=_('Specific permissions for this user.'),
-        related_name='usuarios',  # Alterado de 'usuarios_permissions' para 'usuarios'
+        related_name='usuarios', 
         related_query_name='usuario',
     )
 

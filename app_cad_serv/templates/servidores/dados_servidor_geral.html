@@ -36,7 +36,7 @@ max-width: 100%;
 margin-left: 1510px;
 }
 
-/* Estilo para a imagem de fundo */
+
 .imagem-fundo {
   width: 100%;
   overflow: hidden;
@@ -49,7 +49,7 @@ margin-left: 1510px;
   position: relative;
 }
 
-/* Estilo para a barra do usuário */
+
 .usuario-barra {
   background-color: #3498db;
   padding: 5px;
@@ -58,7 +58,7 @@ margin-left: 1510px;
   flex-direction: column;
   align-items: flex-start;
   font-family: 'Arial', sans-serif;
-  margin-bottom: 0; /* Remover a margem inferior */
+  margin-bottom: 0; 
   position: relative;
 }
 
@@ -72,7 +72,7 @@ margin-left: 1510px;
   font-size: 18px;
 }
 
-/* Estilo para os botões */
+
 .btn {
   margin: 10px;
   transition: background-color 0.3s, color 0.3s;
@@ -83,23 +83,23 @@ margin-left: 1510px;
   color: #fff;
 }
 
-/* Estilo para o botão de logout */
+
 .logout-btn {
-  width: 30px; /* Defina a largura desejada */
-  height: 30px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  width: 30px; 
+  height: 30px;
+  max-width: 100%; 
   cursor: pointer;
 }
 
-/* Estilo para o botão home */
+
 .home-btn img {
-  width: 50px; /* Defina a largura desejada */
-  height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  width: 50px; 
+  height: 50px; 
+  max-width: 100%; 
   margin-left: 1750px;
 }
 
-/* Estilo para o texto de versão */
+
 .version-text {
   text-align: end;
   margin-right: 15px;
@@ -115,26 +115,48 @@ margin-left: 1510px;
 
     <div class="usuario-barra">
       {% if user.is_authenticated %}
-      <span>Bem-vindo(a), {{ user.username }}</span>
+      <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
       <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
 
       <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Sistemas
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Sistemas
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta Dados Servidores</button></li>
+         
+          <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
+          
+          {% if user.is_authenticated and user.is_superuser %}
+          <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+          {% endif %}
+        </ul>
+        
+          <div class="btn-group">
+           
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Cadastrar
           </button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de
-              Consulta de Lançamentos</button></li>
-            <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
-            <li><button class="dropdown-item" onclick="window.location.href='/cadastrar'">Sistema de Lançamento</button></li>
-            <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_geral'">Baixar PDF</button></li>
-            {% if user.is_authenticated and user.is_superuser %}
-            <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-            {% endif %}
+  
+            <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Cadastrar Contribuinte</button></li>
+              <li><button class="dropdown-item" onclick="window.location.href='/outra_opcao_de_cadastro'">Outra Opção de Cadastro</button></li>
           </ul>
-        </div>
+      </div>
 
+      <div class="btn-group">
+           
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Relatorio
+        </button>
+        <ul class="dropdown-menu">
+
+          <li><button class="dropdown-item" onclick="window.location.href='/download_pdf'">Baixar PDF Setor</button></li>
+        </ul>
+    </div>
+
+  </div>
 
       <form method="post" action="{% url 'logout' %}">
         <a href="{% url 'home' %}" class="home-btn">
@@ -189,7 +211,7 @@ margin-left: 1510px;
   
   <div id="filtroContainer" style="display: none;">
    <div class="mb-3 d-flex justify-content-start filter">
-       <label for="searchInput" class="form-label">Pesquisar por Nome:</label>
+       <label for="searchInput" class="form-label">Filtrar por Nome:</label>
        <input type="text" class="form-control" id="searchInput" oninput="filterServidores()">
      </div>
   
