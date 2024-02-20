@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dados dos Servidores</title>
+</head>
+
+<body>
+  <h1>Dados dos Servidores</h1>
+  <table>
+    <tbody>
+      <tr>
+        <td>PREFEITURA MUNICIPAL DE MACEIÓ</td>
+      </tr>
+      <tr>
+        <td>SECRETARIA MUNICIPAL DA FAZENDA</td>
+      </tr>
+      <tr>
+        <td>SETOR: COORD, GERAL DE ATENDIMENTO AO CONTRIBUINTE</td>
+      </tr>
+      <tr>
+        <td>COORDENADOR: {{ diretor_coordenador }}</td>
+      </tr>
+      <tr>
+        <td>MÊS REFERÊNCIA - {{ mes_referencia }} </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do Servidor</th>
+        <th>Mat.</th>
+        <th> Gratificação </th>
+        <th>ADMINIST.</th>
+        <th>OBSERVAÇÃO</th>
+        <th>ESCALA</th>
+        <th>V.P ATUAL</th>
+        <th>Total Pontos</th>
+        <th> Nº SERV </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for servidor in servidores %}
+      <tr>
+        <td>{{ servidor.nome }}</td>
+        <td>{{ servidor.matricula }}</td>
+        <td>{{ servidor.gratificacao_formatada }}</td>
+        <td>{{ servidor.tipo_escala }}</td>
+        <td>{{ servidor.tipo_modalidade }}</td>
+        <td> {{servidor.escala}}</td>
+        <td> {{ servidor.calcular_valor_escala }} </td>
+        <td>{{ servidor.total_pontos }}</td>
+        <td> {{ servidor.id }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+
+</html>

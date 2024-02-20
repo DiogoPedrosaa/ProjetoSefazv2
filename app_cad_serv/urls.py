@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/api-pessoas/', views.api_pessoas, name='api_pessoas'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('excluir-tarefa/<int:tarefa_id>/', views.excluir_tarefa, name='excluir_tarefa'),
+    path('download_pdf_setores/', views.generate_pdf_setores, name='download_pdf_setores'),
+    path('download_pdf_setores_geral/', views.generate_pdf_setores_geral, name='download_pdf_setores_geral')
 ]

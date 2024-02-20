@@ -60,18 +60,18 @@
                 <li><button class="dropdown-item" onclick="window.location.href='/outra_opcao_de_cadastro'">Outra Opção de Cadastro</button></li>
             </ul>
         </div>
+      </div>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <a href="" class="home-btn">
+              <img src="static\img\Home_Btn.png" alt="Home">
+            </a>
+            <img src="static\img\Logout_Btn.png" alt="Logout" class="logout-btn"
+              onclick="this.closest('form').submit()">
+          </form>
+        </div>
     </div>
     {% endif %}
-</div>
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <a href="" class="home-btn">
-        <img src="static\img\Home_Btn.png" alt="Home">
-      </a>
-      <img src="static\img\Logout_Btn.png" alt="Logout" class="logout-btn"
-        onclick="this.closest('form').submit()">
-    </form>
-  </div>
   <div class="version-text">
     <a>Versão: 4.13.8-Beta </a>
   </div>

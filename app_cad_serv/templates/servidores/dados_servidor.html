@@ -131,6 +131,7 @@ margin-left: 1510px;
            
             <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
             
+            
             {% if user.is_authenticated and user.is_superuser %}
             <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
             {% endif %}
@@ -156,6 +157,7 @@ margin-left: 1510px;
           <ul class="dropdown-menu">
   
             <li><button class="dropdown-item" onclick="window.location.href='/download_pdf'">Baixar PDF Setor</button></li>
+            <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_setores_geral'">Baixar PDF Geral</button></li>
           </ul>
       </div>
 

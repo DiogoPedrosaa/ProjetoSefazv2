@@ -572,3 +572,161 @@ def excluir_tarefa(request, tarefa_id):
         messages.error(request, f'Ocorreu um erro ao excluir a tarefa: {str(e)}')
 
     return redirect('visualizar_tarefas_servidor', servidor_id=tarefa.servidor.id)
+
+
+
+@login_required
+def generate_pdf_setores(request):
+   
+    servidores = Servidor.objects.all()
+    
+
+    buffer = BytesIO()
+
+    
+    custom_page_size = landscape(letter)
+
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    elements = []
+
+    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
+    secretaria_style = getSampleStyleSheet()['Title']
+    secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
+
+    elements.append(secretaria_paragraph)
+
+
+    col_widths = [170, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
+
+
+    data = []
+    data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos",])
+
+    for servidor in servidores:
+        data.append([servidor.nome, servidor.escala, servidor.matricula, servidor.pontualidade, servidor.assiduidade, servidor.execucao_tarefas, servidor.iniciativa, servidor.atendimento_servicos, servidor.total_pontos])
+
+    
+    table = Table(data, colWidths=col_widths)
+
+
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ])
+
+
+
+  
+    style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
+    style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
+    style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
+    style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
+    style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
+    style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
+    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
+
+
+    style.add('LEADING', (0, 1), (-1, -1), 10)
+
+    
+    table.setStyle(style)
+
+    
+    elements.append(table)
+    doc.build(elements)
+
+    
+    buffer.seek(0)
+
+
+    response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores_Setores.pdf')
+
+
+
+    return response
+
+
+@login_required
+def generate_pdf_setores_geral(request):
+ 
+    servidores = Servidor.objects.all()
+    
+    buffer = BytesIO()
+
+    custom_page_size = landscape(letter)
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    elements = []
+
+    info_table_data = [
+        ["PREFEITURA MUNICIPAL DE MACEIÓ"],
+        ["SECRETARIA MUNICIPAL DA FAZENDA"],
+        ["SETOR: COORD, GERAL DE ATENDIMENTO AO CONTRIBUINTE"],
+        ["COORDENADOR:" f"{request.user.first_name} {request.user.last_name}"],
+        ["MÊS REFERÊNCIA - teste"]
+    ]
+    info_table = Table(info_table_data, colWidths=[200])
+
+    info_table.setStyle(TableStyle([
+        ('LEFTPADDING', (0, 0), (-1, -1), -265),
+    ]))
+
+    elements.append(info_table)
+
+    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
+    secretaria_style = getSampleStyleSheet()['Title']
+    secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
+    elements.append(secretaria_paragraph)
+
+    col_widths = [170, 50, 70, 70, 70, 60, 70, 90, 60]
+
+    data = [
+        ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Nº SERV"]
+    ]
+
+    for servidor in servidores:
+        data.append([
+            servidor.nome,
+            servidor.matricula,
+            servidor.gratificacao_formatada(),  
+            servidor.tipo_escala,
+            servidor.tipo_modalidade,
+            servidor.escala,
+            servidor.calcular_valor_escala(), 
+            servidor.total_pontos,
+            servidor.id
+        ])
+
+    table = Table(data, colWidths=col_widths)
+
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ])
+
+    style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
+    style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
+    style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
+    style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
+    style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
+    style.add('FONTSIZE', (0, 1), (-1, -1), 8)
+    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3)
+    style.add('LEADING', (0, 1), (-1, -1), 10)
+
+    table.setStyle(style)
+    elements.append(table)
+    doc.build(elements)
+
+    buffer.seek(0)
+
+    response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores_Geral_Setores.pdf')
+    return response
