@@ -84,7 +84,16 @@ p {
         <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
         <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
         <div class="menu-bar">
-              <!-- Botão Sistemas Dropdown -->
+            <!-- Botão Sistemas Dropdown -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Lançamento
+              </button>
+              <ul class="dropdown-menu">
+                  <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
+              </ul>
+            </div>
               <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -110,15 +119,6 @@ p {
                 </ul>
               </div>
 
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Lançamento
-                </button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
-                </ul>
-              </div>
               
         <form method="post" action="{% url 'logout' %}">
 

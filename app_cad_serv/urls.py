@@ -23,5 +23,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('excluir-tarefa/<int:tarefa_id>/', views.excluir_tarefa, name='excluir_tarefa'),
     path('download_pdf_setores/', views.generate_pdf_setores, name='download_pdf_setores'),
-    path('download_pdf_setores_geral/', views.generate_pdf_setores_geral, name='download_pdf_setores_geral')
+    path('download_pdf_setores_geral/', views.generate_pdf_setores_geral, name='download_pdf_setores_geral'),
+    path('download_pdf_servidor/<int:servidor_id>/', views.generate_pdf_servidor, name='download_pdf_servidor'),
 ]

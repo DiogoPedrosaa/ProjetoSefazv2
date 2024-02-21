@@ -35,7 +35,7 @@
     <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
     <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
     <div class="menubar">
-        <div class="btn-group">
+
 
           <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
@@ -45,10 +45,7 @@
             <ul class="dropdown-menu">
               <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
             </ul>
-          </div>
 
-
-        
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Consulta
             </button>
@@ -72,7 +69,8 @@
                 <li><button class="dropdown-item" onclick="window.location.href='/outra_opcao_de_cadastro'">Outra Opção de Cadastro</button></li>
             </ul>
         </div>
-      </div>
+
+    
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <a href="" class="home-btn">

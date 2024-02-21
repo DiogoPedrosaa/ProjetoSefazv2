@@ -50,9 +50,8 @@
     color: #fff;
   }
 
-  .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
+  .btn-danger{
+    width: 150%;
   }
 
   .btn-danger:hover {
@@ -86,18 +85,19 @@
 
   .usuario-barra {
     background-color: #3498db;
-    padding: 10px;
+    padding: 5px;
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     font-family: 'Arial', sans-serif;
+    margin-bottom: 0; 
+    position: relative;
   }
 
   .usuario-barra span {
     font-weight: bold;
     font-size: 18px;
-    margin-right: 10px;
   }
 
   .usuario-barra form {
@@ -147,7 +147,9 @@ width: 1%;
 }
 
 .lixo-icon{
-width: 100%;
+  width: 120%;
+  height: 100%;
+
 }
 
 .btn-danger{
@@ -156,12 +158,14 @@ margin-left: 13px;
 }
 
 .lapis-icon{
-width: 100%;
+  width: 150%;
+  height: 100%;
 }
 
 .icon-azul{
-width: 50%;
+  width: 150%;
 }
+
 .acoes-coluna{
 width: 1%;
 }
@@ -176,21 +180,6 @@ height: 90%;
   margin-left: 10px;
 }
 
-.matricula-filter{
-  max-width: 200px;
-  margin-left: 10px;
-}
-
-.btn-filter{
-  margin-right: 1825px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.data-filter{
-  max-width: 200px;
-  margin-left: 10px;
-}
 
 .matricula-filter{
   max-width: 200px;
@@ -198,10 +187,11 @@ height: 90%;
 }
 
 .btn-filter{
-  margin-right: 1825px;
+  margin-right: 1005px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
 
 .home-btn img {
 width: 50px; 
@@ -210,20 +200,20 @@ max-width: 100%;
 margin-left: 1510px;
 }
 
-/* Estilo para a imagem de fundo */
+
 .imagem-fundo {
-width: 100%;
-overflow: hidden;
-margin-top: 335px;
-position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 335px;
+  position: relative;
 }
 
 .imagem-fundo img {
-width: 100%;
-position: relative;
+  width: 100%;
+  position: relative;
 }
 
-/* Estilo para a barra do usuário */
+
 .usuario-barra {
 background-color: #3498db;
 padding: 5px;
@@ -232,13 +222,13 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 font-family: 'Arial', sans-serif;
-margin-bottom: 0; /* Remover a margem inferior */
+margin-bottom: 0; 
 position: relative;
 }
 
 .usuario-barra div {
-display: relative;
-align-items: center;
+  display: relative;
+  align-items: center;
 }
 
 .usuario-barra span {
@@ -246,35 +236,44 @@ font-weight: bold;
 font-size: 18px;
 }
 
-/* Estilo para os botões */
 .btn {
-margin: 10px;
-transition: background-color 0.3s, color 0.3s;
+  margin: 10px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .btn:hover {
-background-color: #0139a1;
-color: #fff;
+  background-color: #0139a1;
+  color: #fff;
 }
 
-/* Estilo para o botão de logout */
+
 .logout-btn {
-width: 30px; /* Defina a largura desejada */
-height: 30px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
-cursor: pointer;
+  width: 30px; 
+  height: 30px; 
+  max-width: 100%; 
+  cursor: pointer;
 }
 
-/* Estilo para o botão home */
+
 .home-btn img {
-width: 50px; /* Defina a largura desejada */
-height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
-margin-left: 1750px;
+  width: 50px; 
+  height: 50px;
+  max-width: 100%; 
+  margin-left: 1750px;
 }
 
-/* Estilo para o texto de versão */
+
 .version-text {
-text-align: end;
-margin-right: 15px;
+  text-align: end;
+  margin-right: 15px;
+}
+
+
+.download-icon{
+  width: 150%;
+  height: 100%;
+}
+
+.btn-sucess{
+  width: 200%;
 }

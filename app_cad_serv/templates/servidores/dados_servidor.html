@@ -54,7 +54,6 @@ margin-left: 1510px;
   position: relative;
 }
 
-/* Estilo para a barra do usuário */
 .usuario-barra {
   background-color: #3498db;
   padding: 5px;
@@ -63,7 +62,7 @@ margin-left: 1510px;
   flex-direction: column;
   align-items: flex-start;
   font-family: 'Arial', sans-serif;
-  margin-bottom: 0; /* Remover a margem inferior */
+  margin-bottom: 0; 
   position: relative;
 }
 
@@ -77,7 +76,7 @@ margin-left: 1510px;
   font-size: 18px;
 }
 
-/* Estilo para os botões */
+
 .btn {
   margin: 10px;
   transition: background-color 0.3s, color 0.3s;
@@ -110,7 +109,34 @@ margin-left: 1510px;
   margin-right: 15px;
 }
 
-  
+.download-icon{
+  width: 150%;
+  height: 100%;
+}
+
+.btn-sucess{
+  width: 200%;
+}
+
+.lixo-icon{
+  width: 120%;
+  height: 100%;
+
+}
+.lapis-icon{
+  width: 150%;
+  height: 100%;
+}
+
+.btn-danger{
+  width: 150%;
+}
+
+.icon-azul{
+  width: 150%;
+}
+
+
 </style>
 
 <div class="menu-bar">
@@ -127,25 +153,25 @@ margin-left: 1510px;
             Lançamento
           </button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
+    
            
             <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
             
             
-            {% if user.is_authenticated and user.is_superuser %}
-            <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-            {% endif %}
           </ul>
-
+          
           <div class="btn-group">
-             
+            
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Consulta
+              Consulta
             </button>
             <ul class="dropdown-menu">
-    
+              
               <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta de Dados Gerais</button></li>
               <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
+              {% if user.is_authenticated and user.is_superuser %}
+              <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+              {% endif %}
             </ul>
         </div>
           
@@ -169,7 +195,7 @@ margin-left: 1510px;
           <ul class="dropdown-menu">
   
             <li><button class="dropdown-item" onclick="window.location.href='/download_pdf'">Baixar PDF Setor</button></li>
-            <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_setores_geral'">Baixar PDF Geral</button></li>
+            <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_setores'">Baixar PDF Geral</button></li>
           </ul>
       </div>
 
@@ -226,7 +252,7 @@ margin-left: 1510px;
     <table id="tabelaServidores" class="table table-bordered table-auto small-font text-center">
       <thead>
         <tr>
-          <th class="nome-coluna" style="width: 2%;"> Nome do Servidor</th>
+          <th class="nome-coluna" style="width: 0.5%;"> Nome do Servidor</th>
           <th class="setor-coluna"> Setor </th>
           <th class="escala-coluna">Escala</th>
           <th class="matricula-coluna">Mat.</th>
@@ -263,6 +289,9 @@ margin-left: 1510px;
               <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger mr-2">
                 <img src="https://cdn-icons-png.flaticon.com/512/542/542724.png" class="lixo-icon" alt="Icone Lixeira">
               </a>
+              <a href="{% url 'download_pdf_servidor' servidor.id %}" class="btn btn-success">
+                <img src="https://cdn.iconscout.com/icon/free/png-256/free-download-1438181-1216144.png" class="download-icon" alt="Icone Download PDF">
+            </a>
               </a>
             </div>
           </td>

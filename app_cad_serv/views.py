@@ -16,7 +16,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from reportlab.pdfgen import canvas
 
 
 logger = logging.getLogger(__name__)
@@ -651,6 +652,8 @@ def generate_pdf_setores(request):
     return response
 
 
+
+
 @login_required
 def generate_pdf_setores_geral(request):
  
@@ -730,3 +733,78 @@ def generate_pdf_setores_geral(request):
 
     response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores_Geral_Setores.pdf')
     return response
+
+
+
+
+def generate_pdf_servidor(request, servidor_id):
+        servidor = get_object_or_404(Servidor, id=servidor_id)
+        
+        data_referencia = servidor.mes_referencia
+        
+        data_formatada = data_referencia.strftime("%d/%m/%Y")
+
+        buffer = BytesIO()
+        custom_page_size = landscape(letter)
+        doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=10, leftMargin=10)
+        elements = []
+
+        secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
+        secretaria_style = getSampleStyleSheet()['Title']
+        secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
+        elements.append(secretaria_paragraph)
+
+        col_widths = [110, 50, 50, 70, 70, 80, 70, 70, 60, 70, 90]
+
+        data = [
+            ["Nome do Servidor", "Setor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Data Referente"]
+        ]
+
+        data.append([
+            servidor.nome,
+            servidor.setor,
+            servidor.escala,  
+            servidor.matricula,
+            servidor.pontualidade,
+            servidor.assiduidade,
+            servidor.execucao_tarefas, 
+            servidor.iniciativa,
+            servidor.atendimento_servicos,
+            servidor.total_pontos,
+            data_formatada
+        ])
+
+        table = Table(data, colWidths=col_widths)  
+
+        style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ])
+
+        style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
+        style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
+        style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
+        style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
+        style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
+        style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
+        style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
+        
+        style.add('LEADING', (0, 1), (-1, -1), 10)
+
+        table.setStyle(style)
+        
+        elements.append(table)
+
+        doc.build(elements)
+        buffer.seek(0)
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Servidor_{servidor.id}_dados.pdf"'
+        response.write(buffer.getvalue())
+        return response
+    
