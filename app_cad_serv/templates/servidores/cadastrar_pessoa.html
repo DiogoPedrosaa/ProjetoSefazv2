@@ -36,29 +36,40 @@
       <div class="btn-group">
       
           <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Sistemas
+              Lançamento
           </button>
           <ul class="dropdown-menu">
-              <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta de Lançamentos</button></li>
-              <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
+          
               <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
-              {% if user.is_authenticated and user.is_superuser %}
-              <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-              {% endif %}
+       
           </ul>
       </div>
 
+
+      <div class="btn-group">
+         
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Consulta
+        </button>
+        <ul class="dropdown-menu">
+
+          <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta de Lançamentos</button></li>
+          <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
+          {% if user.is_authenticated and user.is_superuser %}
+           <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+          {% endif %}  
+        </ul>
+      </div>
 
 
       <div class="btn-group">
          
           <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Cadastrar
+              Cadastro
           </button>
           <ul class="dropdown-menu">
 
             <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Cadastrar Contribuinte</button></li>
-              <li><button class="dropdown-item" onclick="window.location.href='/outra_opcao_de_cadastro'">Outra Opção de Cadastro</button></li>
           </ul>
         </div>
 
@@ -198,6 +209,7 @@
                           console.log(this.responseText);
                           form.reset();
                           $('#pontos-total').text('0');
+                          mensagemSucessoForm.fadeOut(4000);
                         }
                       };
                       xhttpForm.open('POST', '/cadastrar/', true);
