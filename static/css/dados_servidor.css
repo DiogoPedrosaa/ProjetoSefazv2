@@ -1,185 +1,7 @@
-.navbar-brand {
-    text-align: center;
-    width: 100%;
-    padding-right: 150px;
-    color: #1100ff;
-  }
-
-  .navbar {
-    width: 110%;
-    max-width: none;
-    background-color: #007BFF;
-  }
-
-  #searchInput {
-    max-width: 200px;
-    border-radius: 5px;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-left: 10px;
-  }
-
-  #tabelaServidores {
-    font-size: 13px;
-    font-weight: bold;
-    border-radius: 50px;
-  }
-
-  .btn {
-    transition: background-color 0.3s, color 0.3s;
-    border-radius: 5px;
-    margin-right: 15px;
-  }
-
-  .btn-primary {
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background-color: #212888;
-    color: #fff;
-  }
-
-  .btn-info {
-    background-color: #17a2b8;
-    color: #fff;
-  }
-
-  .btn-info:hover {
-    background-color: #138496;
-    color: #fff;
-  }
-
-  .btn-danger{
-    width: 150%;
-  }
-
-  .btn-danger:hover {
-    background-color: #c82333;
-    color: #fff;
-  }
-
-  body.dark-mode {
-    background-color: #343a40;
-    color: #fff;
-  }
-
-  body.dark-mode .navbar {
-    background-color: #1e272e;
-  }
-
-  body.dark-mode #tabelaServidores {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-  }
-
-  #toggleDarkModeButton {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-    z-index: 1000; 
-    max-width: 30px;
-    max-height: 30px; 
-    cursor: pointer;
-  }
-
-  .usuario-barra {
-    background-color: #3498db;
-    padding: 5px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 0; 
-    position: relative;
-  }
-
-  .usuario-barra span {
-    font-weight: bold;
-    font-size: 18px;
-  }
-
-  .usuario-barra form {
-  display: flex;
-  align-items: center;
-}
-
-.usuario-barra img {
-  width: 30px; 
-  height: 30px; 
-  cursor: pointer; 
-  max-width: 100%;
-}
-
-.home-btn img {
-width: 50px; 
-height: 50px; 
-max-width: 100%; 
-margin-left: 1510px;
-}
-
-
-#tabelaServidores th.negrito {
-font-weight: bold;
-}
-
-#tabelaServidores td {
-font-weight: normal; /* Adicione esta linha para remover o negrito nas células de dados */
-}
-
-.form-label{
-margin-top: 24px;
-}
-
-#tabelaServidores td, #tabelaServidores th {
-max-width: 150px; /* Ajuste conforme necessário */
-overflow: hidden;
-white-space: nowrap; /* Impede a quebra de texto */
-}
-
-.nome-coluna{
-width: 13%
-}
-
-.setor-coluna, .escala-coluna, .matricula-coluna, .pontualidade-coluna, .assiduidade-coluna, .exec-coluna, .iniciativa-coluna, .servicos-coluna, .pontos-coluna, .data-coluna{
-width: 1%;
-}
-
-.lixo-icon{
-  width: 120%;
-  height: 100%;
-
-}
-
-.btn-danger{
-width: 50%;
-margin-left: 13px;
-}
-
-.lapis-icon{
-  width: 150%;
-  height: 100%;
-}
-
-.icon-azul{
-  width: 150%;
-}
-
-.acoes-coluna{
-width: 1%;
-}
-
-.table{
-width: 100%;
-height: 90%;
-}
-
 .data-filter{
   max-width: 200px;
   margin-left: 10px;
 }
-
 
 .matricula-filter{
   max-width: 200px;
@@ -192,27 +14,25 @@ height: 90%;
   margin-top: 10px;
 }
 
-
 .home-btn img {
 width: 50px; 
 height: 50px; 
 max-width: 100%; 
-margin-left: 1510px;
+margin-left: auto;
 }
 
-
+/* Estilo para a imagem de fundo */
 .imagem-fundo {
-  width: 100%;
-  overflow: hidden;
-  margin-top: 335px;
-  position: relative;
+width: 100%;
+overflow: hidden;
+margin-top: 335px;
+position: relative;
 }
 
 .imagem-fundo img {
-  width: 100%;
-  position: relative;
+width: 100%;
+position: relative;
 }
-
 
 .usuario-barra {
 background-color: #3498db;
@@ -227,8 +47,8 @@ position: relative;
 }
 
 .usuario-barra div {
-  display: relative;
-  align-items: center;
+display: relative;
+align-items: center;
 }
 
 .usuario-barra span {
@@ -236,44 +56,73 @@ font-weight: bold;
 font-size: 18px;
 }
 
+
 .btn {
-  margin: 10px;
-  transition: background-color 0.3s, color 0.3s;
+margin: 10px;
+transition: background-color 0.3s, color 0.3s;
 }
 
 .btn:hover {
-  background-color: #0139a1;
-  color: #fff;
+background-color: #0139a1;
+color: #fff;
 }
 
 
 .logout-btn {
-  width: 30px; 
-  height: 30px; 
-  max-width: 100%; 
-  cursor: pointer;
+width: 30px; 
+height: 30px; 
+max-width: 100%; 
+cursor: pointer;
 }
 
 
 .home-btn img {
-  width: 50px; 
-  height: 50px;
-  max-width: 100%; 
-  margin-left: 1750px;
+width: 50px; 
+height: 50px;
+max-width: 100%; 
+margin-left: auto;
 }
 
 
 .version-text {
-  text-align: end;
-  margin-right: 15px;
+text-align: end;
+margin-right: 15px;
 }
 
-
 .download-icon{
-  width: 150%;
-  height: 100%;
+width: 150%;
+height: 100%;
 }
 
 .btn-sucess{
-  width: 200%;
+width: 200%;
 }
+
+.lixo-icon{
+width: 120%;
+height: 100%;
+
+}
+.lapis-icon{
+width: 150%;
+height: 100%;
+}
+
+.btn-danger{
+width: 150%;
+}
+
+.icon-azul{
+width: 150%;
+}
+
+#mensagem-sucesso-form {
+    display: none;
+    background-color: #d4edda;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: #155724;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }

@@ -1,4 +1,3 @@
-
 /* Estilo para a imagem de fundo */
 .imagem-fundo {
   width: 100%;
@@ -59,7 +58,7 @@
   width: 50px; /* Defina a largura desejada */
   height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
   max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
-  margin-left: 1750px;
+  margin-left: auto;
 }
 
 /* Estilo para o texto de versão */
@@ -77,4 +76,14 @@
   margin-top: 10px;
   color: #155724;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menubar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-group {
+  margin-bottom: 10px;
 }

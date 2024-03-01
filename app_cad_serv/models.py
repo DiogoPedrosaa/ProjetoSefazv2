@@ -94,11 +94,33 @@ class Servidor(models.Model):
     ]
     
     SETOR_CHOICES = [
-        ('', ''),
-        ('T.I', 'T.I'),
-        ('RH', 'RH'),
-        ('CAF', 'CAF')
-    ]
+    ('', ''),
+    ('Apoio Atendimento', 'Apoio Atendimento'),
+    ('Arrecadação', 'Arrecadação'),
+    ('ASCOM', 'ASCOM'),
+    ('Cadastro Imobiliário', 'Cadastro Imobiliário'),
+    ('Cadastro Mercantil', 'Cadastro Mercantil'),
+    ('CAF', 'CAF'),
+    ('Catraca', 'Catraca'),
+    ('Cont e convênios', 'Cont e convênios'),
+    ('Coord Geral da rec', 'Coord Geral da rec'),
+    ('CTIT', 'CTIT'),
+    ('Digitalização CTIT', 'Digitalização CTIT'),
+    ('Diret Atend Contri', 'Diretoria do Atendimento ao Contribuente'),
+    ('Diret Rec Mun', 'Diret Rec Mun'),
+    ('Diretoria ADM', 'Diretoria ADM'),
+    ('DTM', 'DTM'),
+    ('Gab Orçamento', 'Gabinete Orçamento'),
+    ('Geoprocessamento', 'Geoprocessamento'),
+    ('Inteligência fiscal', 'Inteligência fiscal'),
+    ('ITBI', 'ITBI'),
+    ('Orçamento', 'Orçamento'),
+    ('RH', 'RH'),
+    ('Subsec Rec Mun', 'Subsecretaria Rec Mun'),
+    ('Superintendência', 'Superintendência'),
+    ('Triagem', 'Triagem'),
+    ('UGOCC', 'UGOCC'),
+]
     
     def calcular_valor_escala(self):
         valores_escala_direta = {'A': 16.71, 'B': 24.98, 'C': 36.56, 'D': 50.65}

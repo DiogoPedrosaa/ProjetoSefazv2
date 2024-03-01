@@ -73,17 +73,20 @@ def cadastrar(request):
 
 
 def dados_servidor(request):
+    allowed_groups = {'CTIT', 'RH', 'CAF', 'Diretoria ADM', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsec Rec Mun', 'Diret Rec Mun', 'Coord Geral da rec', 'Diret Atend Contri',
+                      'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Cont e convênios', 'Superintendência',
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
+                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
 
-    if user_group:
-        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
-           
-            servidores = Servidor.objects.filter(setor=user_group)
-        else:
-            
-            servidores = Servidor.objects.filter(user=request.user)
+    if user_group and user_group in allowed_groups:
+        servidores = Servidor.objects.filter(setor=user_group)
+    else:
+        servidores = Servidor.objects.filter(user=request.user)
 
     return render(request, 'servidores/dados_servidor.html', {'servidores': servidores, 'user_group': user_group})
 
@@ -254,17 +257,20 @@ def visualizar_tarefas_servidor(request, servidor_id):
 @login_required
 def generate_pdf(request):
    
+    allowed_groups = {'CTIT', 'RH', 'CAF', 'Diretoria ADM', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsec Rec Mun', 'Diret Rec Mun', 'Coord Geral da rec', 'Diret Atend Contri',
+                      'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Cont e convênios', 'Superintendência',
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
+                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
 
-    if user_group:
-        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
-            servidores = Servidor.objects.filter(setor=user_group)
-        else:
-            servidores = Servidor.objects.filter(user=request.user)
+    if user_group and user_group in allowed_groups:
+        servidores = Servidor.objects.filter(setor=user_group)
     else:
-        servidores = Servidor.objects.none()
+        servidores = Servidor.objects.filter(user=request.user)
         
 
     buffer = BytesIO()
@@ -343,17 +349,21 @@ def generate_pdf(request):
 @login_required
 def generate_pdf_geral(request):
  
+    allowed_groups = {'CTIT', 'RH', 'CAF', 'Diretoria ADM', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsec Rec Mun', 'Diret Rec Mun', 'Coord Geral da rec', 'Diret Atend Contri',
+                      'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Cont e convênios', 'Superintendência',
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
+                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
 
-    if user_group:
-        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
-            servidores = Servidor.objects.filter(setor=user_group)
-        else:
-            servidores = Servidor.objects.filter(user=request.user)
+    if user_group and user_group in allowed_groups:
+        servidores = Servidor.objects.filter(setor=user_group)
     else:
-        servidores = Servidor.objects.none()
+        servidores = Servidor.objects.filter(user=request.user)
+        
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
@@ -453,17 +463,20 @@ def excluir_servidor(request, servidor_id):
 
 @login_required
 def dados_servidor_geral(request):
+    allowed_groups = {'CTIT', 'RH', 'CAF', 'Diretoria ADM', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsec Rec Mun', 'Diret Rec Mun', 'Coord Geral da rec', 'Diret Atend Contri',
+                      'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Cont e convênios', 'Superintendência',
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
+                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+
     user_group = None
     if request.user.groups.exists():
         user_group = request.user.groups.first().name
 
-    if user_group:
-        if user_group == 'T.I' or user_group == 'RH' or user_group == 'CAF':
-            
-            servidores = Servidor.objects.filter(setor=user_group)
-        else:
-            
-            servidores = Servidor.objects.filter(user=request.user)
+    if user_group and user_group in allowed_groups:
+        servidores = Servidor.objects.filter(setor=user_group)
+    else:
+        servidores = Servidor.objects.filter(user=request.user)
 
     return render(request, 'servidores/dados_servidor_geral.html', {'servidores': servidores, 'user_group': user_group})
 
@@ -548,7 +561,7 @@ def dashboard(request):
     total_tarefas = TarefaRealizada.objects.count()
     total_usuarios = Usuario.objects.count()
     
-    num_servidores_ti = Servidor.objects.filter(setor='TI').count()
+    num_servidores_ti = Servidor.objects.filter(setor='CTIT').count()
     num_servidores_rh = Servidor.objects.filter(setor='RH').count()
 
     context = {

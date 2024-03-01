@@ -57,7 +57,7 @@ width: 40px; /* Defina a largura desejada */
 height: 40px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
 max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
 margin-right: 0;
-margin-left: 1500px;
+margin-left: auto;
 }
 
 .container {
@@ -100,8 +100,8 @@ p {
                   Consulta
                 </button>
                 <ul class="dropdown-menu">
-                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Sistema de Consulta De Servidores</button></li>
-                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Sistema de Consulta De Dados Gerais</button></li>
+                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
+                  <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta de Dados Gerais</button></li>
                   {% if user.is_authenticated and user.is_superuser %}
                   <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
                   {% endif %}
@@ -114,8 +114,11 @@ p {
                   aria-expanded="false">
                   Cadastro
                 </button>
+
                 <ul class="dropdown-menu">
+                    {% if user.is_authenticated and user.is_superuser %}
                     <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
+                    {%endif%}
                 </ul>
               </div>
 

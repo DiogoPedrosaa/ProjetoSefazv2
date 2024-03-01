@@ -12,97 +12,172 @@
   <script src="http://127.0.0.1:8000/api/api-pessoas/"></script>
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
   <style>
-    #mensagem-sucesso-form {
-      display: none;
-      background-color: #d4edda;
-      padding: 10px;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      margin-top: 10px;
-      color: #155724;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+    
+/* Estilo para a imagem de fundo */
+.imagem-fundo {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 335px;
+  position: relative;
+}
 
-  <title>Pagina Inicial</title>
+.imagem-fundo img {
+  width: 100%;
+  position: relative;
+}
+
+/* Estilo para a barra do usuário */
+.usuario-barra {
+  background-color: #3498db;
+  padding: 5px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 0; /* Remover a margem inferior */
+  position: relative;
+}
+
+.usuario-barra div {
+  display: relative;
+  align-items: center;
+}
+
+.usuario-barra span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Estilo para os botões */
+.btn {
+  margin: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0139a1;
+  color: #fff;
+}
+
+/* Estilo para o botão de logout */
+.logout-btn {
+  width: 30px; /* Defina a largura desejada */
+  height: 30px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
+  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  cursor: pointer;
+}
+
+/* Estilo para o botão home */
+.home-btn img {
+  width: 50px; /* Defina a largura desejada */
+  height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
+  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  margin-left: auto;
+}
+
+/* Estilo para o texto de versão */
+.version-text {
+  text-align: end;
+  margin-right: 15px;
+}
+
+#mensagem-sucesso-form {
+  display: none;
+  background-color: #d4edda;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: #155724;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menubar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-group {
+  margin-bottom: 10px;
+}
+
+</style>
+
+<title>Pagina Inicial</title>
 
 
 </head>
 
 <body>
-  <div class="usuario-barra">
-    {% if user.is_authenticated %}
-    <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
-    <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
-    <div class="menubar">
-
-
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Lançamento
-            </button>
-            <ul class="dropdown-menu">
-              <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
-            </ul>
-
-
-            <div>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Consulta
-            </button>
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
-                <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta de Dados Gerais</button></li>
-                {% if user.is_authenticated and user.is_superuser %}
-                <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
-                {% endif %}
-            </ul>
-        </div>
-        </div>
-
-        <div class="btn-group">
-           
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Cadastro
-            </button>
-            <ul class="dropdown-menu">
-
-              <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Cadastrar Contribuinte</button></li>
-            </ul>
-        </div>
-
-    
-          <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <a href="" class="home-btn">
-              <img src="static\img\Home_Btn.png" alt="Home">
-            </a>
-            <img src="static\img\Logout_Btn.png" alt="Logout" class="logout-btn"
-              onclick="this.closest('form').submit()">
-          </form>
-        </div>
+<div class="usuario-barra">
+  {% if user.is_authenticated %}
+  <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
+  <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+  <div class="menubar">
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Lançamento
+      </button>
+      <ul class="dropdown-menu">
+        <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
+      </ul>
     </div>
-    {% endif %}
-  <div class="version-text">
-    <a>Versão: 4.13.8-Beta </a>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Consulta
+      </button>
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
+        <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta de Dados Gerais</button></li>
+        {% if user.is_authenticated and user.is_superuser %}
+        <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Cadastro
+      </button>
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Cadastrar Contribuinte</button></li>
+      </ul>
+    </div>
+    
+    
   </div>
-  <div id="mensagem-sucesso-form" style="color: green;"></div>
-  <div id="conteudo"></div>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <a href="" class="home-btn">
+      <img src="static\img\Home_Btn.png" alt="Home">
+    </a>
+    <img src="static\img\Logout_Btn.png" alt="Logout" class="logout-btn" onclick="this.closest('form').submit()">
+  </form>
+</div>
+{% endif %}
+<div id="mensagem-sucesso-form" style="color: green;"></div>
+<div id="conteudo"></div>
 
+<div class="version-text">
+  <a>Versão: 4.13.8-Beta </a>
+</div>
+<div class="imagem-fundo">
+  <img src="static\img\Wallpaper_Prefeitura.png" alt="Imagem Fundo">
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
+  integrity="sha384-k6RqeZHzndpKXik3bR6qzGk65t0sIVMlXM6ZfPTAMN9ShELI6Z6C5x5kI7AvtqH2"
+  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
 
-  <div class="imagem-fundo">
-    <img src="static\img\Wallpaper_Prefeitura.png" alt="Imagem Fundo">
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
-    integrity="sha384-k6RqeZHzndpKXik3bR6qzGk65t0sIVMlXM6ZfPTAMN9ShELI6Z6C5x5kI7AvtqH2"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</html>
 
   <script>
 
@@ -111,10 +186,7 @@
     function configurarSugestaoNomes() {
       $('#id_nome').on('input', function () {
         var inputNome = $(this).val().toLowerCase();
-        if (inputNome.trim() === '') {
-          $('#sugestoes-container').hide();
-          return;
-        }
+      
 
         $.ajax({
           url: '/api/api-pessoas/',
