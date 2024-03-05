@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
   <style>
     
-/* Estilo para a imagem de fundo */
+
 .imagem-fundo {
   width: 100%;
   overflow: hidden;
@@ -26,7 +26,7 @@
   position: relative;
 }
 
-/* Estilo para a barra do usuário */
+
 .usuario-barra {
   background-color: #3498db;
   padding: 5px;
@@ -35,7 +35,7 @@
   flex-direction: column;
   align-items: flex-start;
   font-family: 'Arial', sans-serif;
-  margin-bottom: 0; /* Remover a margem inferior */
+  margin-bottom: 0; 
   position: relative;
 }
 
@@ -49,7 +49,7 @@
   font-size: 18px;
 }
 
-/* Estilo para os botões */
+
 .btn {
   margin: 10px;
   transition: background-color 0.3s, color 0.3s;
@@ -60,23 +60,23 @@
   color: #fff;
 }
 
-/* Estilo para o botão de logout */
+
 .logout-btn {
-  width: 30px; /* Defina a largura desejada */
-  height: 30px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  width: 30px; 
+  height: 30px; 
+  max-width: 100%; 
   cursor: pointer;
 }
 
-/* Estilo para o botão home */
+
 .home-btn img {
-  width: 50px; /* Defina a largura desejada */
-  height: 50px; /* Isso garante que a altura seja ajustada automaticamente para manter a proporção */
-  max-width: 100%; /* Garante que a largura não ultrapasse a largura do contêiner pai */
+  width: 50px; 
+  height: 50px; 
+  max-width: 100%; 
   margin-left: auto;
 }
 
-/* Estilo para o texto de versão */
+
 .version-text {
   text-align: end;
   margin-right: 15px;
@@ -143,7 +143,9 @@
         Cadastro
       </button>
       <ul class="dropdown-menu">
+        {% if user.is_authenticated and user.is_superuser %}
         <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Cadastrar Contribuinte</button></li>
+        {% endif %}
       </ul>
     </div>
     

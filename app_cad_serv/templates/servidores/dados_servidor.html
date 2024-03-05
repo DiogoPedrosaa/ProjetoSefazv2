@@ -9,7 +9,6 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/dados_servidor.css' %}">
     <script src="{% static 'js/dados_servidor.js' %}"></script>
 
   <title>Dados dos Servidores</title>
@@ -18,30 +17,143 @@
 
 
 <style>
-  .data-filter{
-    max-width: 200px;
-    margin-left: 10px;
+  .navbar-brand {
+    text-align: center;
+    width: 100%;
+    padding-right: 0;
   }
 
-  .matricula-filter{
-    max-width: 200px;
-    margin-left: 10px;
+  .navbar {
+    width: 100%;
+    max-width: none;
+    color: aquamarine;
   }
 
-  .btn-filter{
+  .table-top {
+    max-width: 500px;
+    font-weight: bold;
+    background-color: #f2f2f2;
+  }
+
+  .table-top td {
+    text-align: start;
+  }
+
+  #searchInput {
+    max-width: 200px;
+  }
+
+
+
+  .form-label {
+    margin-right: 5px;
+  }
+
+
+  .small-font {
+    font-size: 15px;
+
+  }
+
+
+  #tabelaServidores {
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  body.dark-mode {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  body.dark-mode .navbar {
+    background-color: #1e272e;
+  }
+
+  body.dark-mode #tabelaServidores {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+  }
+
+  #toggleDarkModeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    max-width: 30px;
+    max-height: 30px;
+    cursor: pointer;
+  }
+
+  .usuario-barra {
+    background-color: #3498db;
+    padding: 5px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 0; 
+    position: relative;
+  }
+
+
+.usuario-barra span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+  .usuario-barra form {
+  display: flex;
+  align-items: center;
+}
+
+.usuario-barra div {
+  display: relative;
+  align-items: center;
+}
+
+.usuario-barra img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer; 
+  max-width: 100%;
+ 
+  
+}
+
+.home-btn img {
+  width: 50px; 
+  height: 50px; 
+  max-width: 100%;
+  margin-left: auto;
+  }
+
+.btn-filter{
     margin-right: 1005px;
     margin-bottom: 10px;
     margin-top: 10px;
   }
 
-  .home-btn img {
-width: 50px; 
-height: 50px; 
-max-width: 100%; 
-margin-left: auto;
+
+#tabelaServidores th.negrito {
+font-weight: bold;
 }
 
-/* Estilo para a imagem de fundo */
+#tabelaServidores td {
+font-weight: normal;
+}
+
+.data-filter{
+  max-width: 200px;
+  margin-left: 10px;
+}
+
+.matricula-filter{
+  max-width: 200px;
+  margin-left: 10px;
+}
+
 .imagem-fundo {
   width: 100%;
   overflow: hidden;
@@ -52,28 +164,6 @@ margin-left: auto;
 .imagem-fundo img {
   width: 100%;
   position: relative;
-}
-
-.usuario-barra {
-  background-color: #3498db;
-  padding: 5px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: 'Arial', sans-serif;
-  margin-bottom: 0; 
-  position: relative;
-}
-
-.usuario-barra div {
-  display: relative;
-  align-items: center;
-}
-
-.usuario-barra span {
-  font-weight: bold;
-  font-size: 18px;
 }
 
 
@@ -90,19 +180,10 @@ margin-left: auto;
 
 .logout-btn {
   width: 30px; 
-  height: 30px; 
+  height: 30px;
   max-width: 100%; 
   cursor: pointer;
 }
-
-
-.home-btn img {
-  width: 50px; 
-  height: 50px;
-  max-width: 100%; 
-  margin-left: auto;
-}
-
 
 .version-text {
   text-align: end;
@@ -110,43 +191,38 @@ margin-left: auto;
 }
 
 .download-icon{
-  width: 150%;
-  height: 100%;
+  width: 115%;
 }
 
 .btn-sucess{
-  width: 200%;
+  width: 20%;
 }
 
 .lixo-icon{
-  width: 120%;
-  height: 100%;
+  width: 100%;
 
 }
 .lapis-icon{
-  width: 150%;
-  height: 100%;
+  width: 105%;
 }
 
 .btn-danger{
-  width: 150%;
+  width: 140%;
 }
 
 .icon-azul{
-  width: 150%;
+  width: 140%;
 }
 
-#mensagem-sucesso-form {
-      display: none;
-      background-color: #d4edda;
-      padding: 10px;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      margin-top: 10px;
-      color: #155724;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.acoes-coluna{
+  width: 12%;
+}
 
+.botoes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ou use 'space-around' para espaçamento uniforme */
+}
 </style>
 
 <div class="menu-bar">
@@ -264,8 +340,8 @@ margin-left: auto;
     
     
     <img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
-    
-    <table id="tabelaServidores" class="table table-bordered table-auto small-font text-center">
+    <div class="table-responsive">
+    <table id="tabelaServidores" class="table table-bordered table-auto small-font text-center relative">
       <thead>
         <tr>
           <th class="nome-coluna" style="width: 0.5%;"> Nome do Servidor</th>
@@ -297,17 +373,15 @@ margin-left: auto;
           <td class="text-center">{{ servidor.total_pontos }}</td>
           <td class="text-center">{{ servidor.mes_referencia }}</td>
           <td>
-            <div class="d-flex botoes-acoes">
-              
-              <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary icon-azul">
-               <img src="https://simpleicon.com/wp-content/uploads/pencil-256x256.png" class="lapis-icon" alt="Icone Lapis">
+            <div class="botoes">
+              <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary btn-sm icon-azul mb-2 mb-md-0 btn-acoes">
+                <img src="https://simpleicon.com/wp-content/uploads/pencil-256x256.png" class="lapis-icon" alt="Icone Lapis">
               </a>
-              <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger mr-2">
+              <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger btn-sm mr-2 mb-2 mb-md-0 btn-acoes">
                 <img src="https://cdn-icons-png.flaticon.com/512/542/542724.png" class="lixo-icon" alt="Icone Lixeira">
               </a>
-              <a href="{% url 'download_pdf_servidor' servidor.id %}" class="btn btn-success">
+              <a href="{% url 'download_pdf_servidor' servidor.id %}" class="btn btn-success btn-sm mb-2 mb-md-0 btn-acoes">
                 <img src="https://cdn.iconscout.com/icon/free/png-256/free-download-1438181-1216144.png" class="download-icon" alt="Icone Download PDF">
-            </a>
               </a>
             </div>
           </td>
@@ -315,6 +389,7 @@ margin-left: auto;
         {% endfor %}
       </tbody>
     </table>
+    </div>
   </div>
 </html>
 </body>
@@ -328,6 +403,106 @@ margin-left: auto;
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+      function filterServidores() {
+    var input, filter, table, tr, td_nome, i, txtValue_nome;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tabelaServidores"); // Seleciona a tabela de servidores
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+      td_nome = tr[i].getElementsByTagName("td")[0]; // Assume que o nome do servidor está na primeira coluna
+
+      if (td_nome) {
+        txtValue_nome = td_nome.textContent || td_nome.innerText;
+
+        if (txtValue_nome.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+    function toggleDarkMode() {
+      // Adiciona ou remove a classe 'dark-mode' do corpo da página
+      document.body.classList.toggle('dark-mode');
+    }
+
+
+    function filterData() {
+    var inputDate, filterDate, table, tr, tdDate, i, txtValueDate;
+    inputDate = document.getElementById("dateInput");
+    filterDate = inputDate.value;
+    table = document.getElementById("tabelaServidores");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        tdDate = tr[i].getElementsByTagName("td")[10]; // Assumindo que a data está na 11ª coluna (índice 10)
+
+        if (tdDate) {
+            txtValueDate = tdDate.textContent || tdDate.innerText;
+
+            // Tentar extrair a data usando uma expressão regular
+            var match = /(\d{1,2}) de ([a-zA-Z]+) de (\d{4})/.exec(txtValueDate);
+
+            if (match) {
+                // Formatar a data para "DD/MM/YYYY"
+                var monthNames = [
+                    "Janeiro", "Fevereiro", "Março",
+                    "Abril", "Maio", "Junho", "Julho",
+                    "Agosto", "Setembro", "Outubro",
+                    "Novembro", "Dezembro"
+                ];
+
+                var monthIndex = monthNames.indexOf(match[2]);
+                var formattedDate = match[1].padStart(2, '0') + "/" + (monthIndex + 1).toString().padStart(2, '0') + "/" + match[3];
+
+                // Formatar a data de filtro para o mesmo formato
+                var datePartsFilter = filterDate.split("-");
+                var formattedFilterDate = datePartsFilter[2] + "/" + datePartsFilter[1] + "/" + datePartsFilter[0];
+
+                if (formattedDate === formattedFilterDate || filterDate === "") {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+}
+
+
+
+
+function filterMatricula() {
+    var inputMatricula, filterMatricula, table, tr, tdMatricula, i, txtValueMatricula;
+    inputMatricula = document.getElementById("matriculaInput");
+    filterMatricula = inputMatricula.value.toUpperCase();
+    table = document.getElementById("tabelaServidores");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+      tdMatricula = tr[i].getElementsByTagName("td")[3]; // Assumindo que a matrícula está na 4ª coluna (índice 3)
+
+      if (tdMatricula) {
+        txtValueMatricula = tdMatricula.textContent || tdMatricula.innerText;
+
+        if (txtValueMatricula.toUpperCase().indexOf(filterMatricula) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+  function toggleFilters() {
+        var filtroContainer = document.getElementById("filtroContainer");
+        filtroContainer.style.display = (filtroContainer.style.display === "none" || filtroContainer.style.display === "") ? "block" : "none";
+      }
 
       var mensagemSucessoForm = $('#mensagem-sucesso-form');
 
