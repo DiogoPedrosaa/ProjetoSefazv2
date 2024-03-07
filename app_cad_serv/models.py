@@ -122,6 +122,7 @@ class Servidor(models.Model):
     ('UGOCC', 'UGOCC'),
 ]
     
+    
     def calcular_valor_escala(self):
         valores_escala_direta = {'A': 16.71, 'B': 24.98, 'C': 36.56, 'D': 50.65}
         valores_escala_indireta = {'A': 11.02, 'B': 16.71, 'C': 24.98, 'D': 36.46}
@@ -170,7 +171,7 @@ class Servidor(models.Model):
      
 class TarefaRealizada(models.Model):
     servidor = models.ForeignKey(Servidor, on_delete=models.CASCADE, null=True)
-    diretor_coordenador = models.CharField(max_length=100, null=False)
+    diretor_coordenador = models.CharField(max_length=100, null= False)
     tarefas = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
     

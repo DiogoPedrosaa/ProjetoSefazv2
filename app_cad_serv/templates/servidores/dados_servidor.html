@@ -17,6 +17,19 @@
 
 
 <style>
+
+#mensagem-sucesso-form {
+  display: none;
+  background-color: #d4edda;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: #155724;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
   .navbar-brand {
     text-align: center;
     width: 100%;
@@ -191,7 +204,7 @@ font-weight: normal;
 }
 
 .download-icon{
-  width: 115%;
+  width: 105%;
 }
 
 .btn-sucess{
@@ -199,11 +212,11 @@ font-weight: normal;
 }
 
 .lixo-icon{
-  width: 100%;
+  width: 90%;
 
 }
 .lapis-icon{
-  width: 105%;
+  width: 90%;
 }
 
 .btn-danger{
@@ -221,8 +234,57 @@ font-weight: normal;
 .botoes {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* ou use 'space-around' para espaçamento uniforme */
+  justify-content: space-between; 
 }
+
+.data-coluna{
+  width: 10%;
+}
+
+.pontos-coluna{
+  width: 5%;
+}
+
+.nome-coluna{
+  width: 5%;
+}
+
+#tabelaServidores th.nome-coluna,
+#tabelaServidores td.text-center:nth-child(1) {
+  width: 25%; 
+}
+
+#tabelaServidores th.pontualidade-coluna,
+#tabelaServidores td.text-center:nth-child(5),
+#tabelaServidores th.assiduidade-coluna,
+#tabelaServidores td.text-center:nth-child(6),
+#tabelaServidores th.exec-coluna,
+#tabelaServidores td.text-center:nth-child(7) 
+#tabelaServidores th.iniciativa-coluna,
+#tabelaServidores td.text-center:nth-child(8){
+  width: 5%;
+}
+
+#tabelaServidores th.servicos-coluna,
+#tabelaServidores td.text-center:nth-child(9){
+width: 5%;
+}
+
+#tabelaServidores th.matricula-coluna,
+#tabelaServidores td.text-center:nth-child(10){
+width: 5%;
+}
+
+#tabelaServidores th.escala-coluna,
+#tabelaServidores td.text-center:nth-child(11){
+width: 5%;
+}
+
+#tabelaServidores th.setor-coluna,
+#tabelaServidores td.text-center:nth-child(12){
+width: 5%;
+}
+
 </style>
 
 <div class="menu-bar">
@@ -426,7 +488,7 @@ font-weight: normal;
   }
 
     function toggleDarkMode() {
-      // Adiciona ou remove a classe 'dark-mode' do corpo da página
+      
       document.body.classList.toggle('dark-mode');
     }
 
@@ -509,10 +571,10 @@ function filterMatricula() {
       function mostrarMensagemSucesso(mensagem) {
        mensagemSucessoForm.html(mensagem).fadeIn();
 
-    // Configura um temporizador para esconder a mensagem após alguns segundos
+
       setTimeout(function () {
       mensagemSucessoForm.fadeOut();
-    }, 3000); // 3000 milissegundos = 3 segundos
+    }, 3000); 
   }
 
   
@@ -595,8 +657,9 @@ function filterMatricula() {
             xhttp.onreadystatechange = function () {
               if (this.readyState == 4 && this.status == 200) {
                 document.getElementById('conteudo').innerHTML = this.responseText;
-                document.getElementById('conteudo').style.padding = '5px';
+                document.getElementById('conteudo').style.padding = '10px';
                 document.getElementById('conteudo').style.fontSize = '14px';
+                document.getElementById('conteudo').style.paddingLeft = '20px';
                 conteudoAberto = true;
                 configurarSugestaoNomes();
                 inicializarCalculoPontos();

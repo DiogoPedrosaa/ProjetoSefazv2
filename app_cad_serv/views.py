@@ -233,13 +233,13 @@ def preencher_tarefas(request, servidor_id):
         if form.is_valid():
             tarefa = form.save(commit=False)
             tarefa.servidor = servidor  
-            tarefa.diretor_coordenador = form.cleaned_data['diretor_coordenador']
+            tarefa.diretor_coordenador = request.user.get_full_name()
             tarefa.save()
             messages.success(request, 'Tarefas Enviadas com Sucesso!')
             return redirect('preencher_tarefas', servidor_id=servidor_id)
 
     else:
-        form = TarefaRealizadaForm(initial={'colaborador': servidor.nome})
+        form = TarefaRealizadaForm(initial={'colaborador': servidor.nome, 'diretor_coordenador': request.user.get_full_name()})
 
     tarefas_servidor = TarefaRealizada.objects.filter(servidor=servidor, data=servidor.mes_referencia)
 
@@ -288,7 +288,7 @@ def generate_pdf(request):
     elements.append(secretaria_paragraph)
 
 
-    col_widths = [170, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
+    col_widths = [200, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
 
 
     data = []
@@ -610,7 +610,7 @@ def generate_pdf_setores(request):
     elements.append(secretaria_paragraph)
 
 
-    col_widths = [170, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
+    col_widths = [200, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
 
 
     data = []
@@ -767,7 +767,7 @@ def generate_pdf_servidor(request, servidor_id):
         secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
         elements.append(secretaria_paragraph)
 
-        col_widths = [110, 50, 50, 70, 70, 80, 70, 70, 60, 70, 90]
+        col_widths = [180, 50, 40, 40, 70, 70, 70, 50, 60, 70, 80]
 
         data = [
             ["Nome do Servidor", "Setor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Data Referente"]
@@ -821,3 +821,6 @@ def generate_pdf_servidor(request, servidor_id):
         response.write(buffer.getvalue())
         return response
     
+    
+
+
