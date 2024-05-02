@@ -100,22 +100,22 @@ class Servidor(models.Model):
     ('ASCOM', 'ASCOM'),
     ('Cadastro Imobiliário', 'Cadastro Imobiliário'),
     ('Cadastro Mercantil', 'Cadastro Mercantil'),
-    ('CAF', 'CAF'),
+    ('Coordenação Geral de Auditoria Fiscal', 'Coordenação Geral de Auditoria Fiscal'),
     ('Catraca', 'Catraca'),
-    ('Cont e convênios', 'Cont e convênios'),
-    ('Coord Geral da rec', 'Coord Geral da rec'),
-    ('CTIT', 'CTIT'),
+    ('Diretoria de Gestão de Contatros e Contratações', 'Diretoria de Gestão de Contatros e Contratações'),
+    ('Coordenação Geral da Receita Municipal', 'Coordenação Geral da Receita Municipal'),
+    ('Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Tecnologia da Informação e Telecomunicações'),
     ('Digitalização CTIT', 'Digitalização CTIT'),
-    ('Diret Atend Contri', 'Diretoria do Atendimento ao Contribuente'),
-    ('Diret Rec Mun', 'Diret Rec Mun'),
-    ('Diretoria ADM', 'Diretoria ADM'),
+    ('Diretoria do Atendimento ao Contribuinte', 'Diretoria do Atendimento ao Contribuinte'),
+    ('Diretoria da Receita Municipal', 'Diretoria da Receita Municipal'),
+    ('Diretoria Administrativa', 'Diretoria Administrativa'),
     ('DTM', 'DTM'),
     ('Gab Orçamento', 'Gabinete Orçamento'),
     ('Geoprocessamento', 'Geoprocessamento'),
     ('Inteligência fiscal', 'Inteligência fiscal'),
     ('ITBI', 'ITBI'),
     ('Orçamento', 'Orçamento'),
-    ('RH', 'RH'),
+    ('Coordenação de Gestão de Pessoas', 'Coordenação de Gestão de Pessoas'),
     ('Subsec Rec Mun', 'Subsecretaria Rec Mun'),
     ('Superintendência', 'Superintendência'),
     ('Triagem', 'Triagem'),
@@ -165,6 +165,7 @@ class Servidor(models.Model):
     mes_referencia = models.DateField(default=datetime.date.today)
     setor = models.CharField(max_length=100, null=False, default='', choices=SETOR_CHOICES)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    teste_tarefas = models.TextField(blank=True, null=True)
 
 
 

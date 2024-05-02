@@ -9,7 +9,6 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
-    <script src="{% static 'js/dados_servidor.js' %}"></script>
 
   <title>Dados dos Servidores</title>
 
@@ -143,9 +142,7 @@
   }
 
 .btn-filter{
-    margin-right: 1005px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-right: 100px;
   }
 
 
@@ -186,7 +183,7 @@ font-weight: normal;
 }
 
 .btn:hover {
-  background-color: #0139a1;
+  background-color: #3498db;
   color: #fff;
 }
 
@@ -213,19 +210,26 @@ font-weight: normal;
 
 .lixo-icon{
   width: 90%;
-
+  background-color: transparent;
+  border: transparent;
 }
 .lapis-icon{
   width: 90%;
+  background-color: transparent;
 }
 
 .btn-danger{
   width: 140%;
+  background-color: transparent;
+  border: transparent;
 }
 
 .icon-azul{
   width: 140%;
+  background-color: transparent;
+  border: transparent;
 }
+
 
 .acoes-coluna{
   width: 12%;
@@ -235,6 +239,7 @@ font-weight: normal;
   display: flex;
   align-items: center;
   justify-content: space-between; 
+
 }
 
 .data-coluna{
@@ -283,6 +288,11 @@ width: 5%;
 #tabelaServidores th.setor-coluna,
 #tabelaServidores td.text-center:nth-child(12){
 width: 5%;
+}
+
+.btn-acoes{
+  background-color: transparent;
+  border: transparent;
 }
 
 </style>
@@ -350,6 +360,8 @@ width: 5%;
     </div>
        
         
+
+    {%block login%}
       <div>
         <form method="post" action="{% url 'logout' %}">
           <a href="{% url 'home' %}" class="home-btn">
@@ -359,16 +371,17 @@ width: 5%;
           <img src="https://i.imgur.com/NV9Hgj3.png" alt="Logout" onclick="this.closest('form').submit()">
         </form>
       </div>
+      {% endblock login %}
 
       
       
       
     </div>
-    <div class="container-fluid text-center">
+   
       <button class="btn btn-primary btn-filter" onclick="toggleFilters()">Filtragem</button>
       
       
-    </div>
+    
   </div>
   
   
@@ -401,7 +414,7 @@ width: 5%;
   </div>
     
     
-    <img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
+    
     <div class="table-responsive">
     <table id="tabelaServidores" class="table table-bordered table-auto small-font text-center relative">
       <thead>
@@ -436,7 +449,7 @@ width: 5%;
           <td class="text-center">{{ servidor.mes_referencia }}</td>
           <td>
             <div class="botoes">
-              <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary btn-sm icon-azul mb-2 mb-md-0 btn-acoes">
+              <a href="{% url 'visualizar_tarefas_servidor' servidor.id %}" class="btn btn-primary btn-sm icon-azul mb-2 mb-md-0 btn-acoes">
                 <img src="https://simpleicon.com/wp-content/uploads/pencil-256x256.png" class="lapis-icon" alt="Icone Lapis">
               </a>
               <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger btn-sm mr-2 mb-2 mb-md-0 btn-acoes">
@@ -465,7 +478,7 @@ width: 5%;
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-      function filterServidores() {
+    function filterServidores() {
     var input, filter, table, tr, td_nome, i, txtValue_nome;
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
@@ -496,44 +509,47 @@ width: 5%;
     function filterData() {
     var inputDate, filterDate, table, tr, tdDate, i, txtValueDate;
     inputDate = document.getElementById("dateInput");
-    filterDate = inputDate.value;
+    filterDate = inputDate.value; // Recebe a data filtrada do input
+    console.log("Data de Filtro:", filterDate); // Mensagem de depuração
+
     table = document.getElementById("tabelaServidores");
     tr = table.getElementsByTagName("tr");
 
     for (i = 0; i < tr.length; i++) {
         tdDate = tr[i].getElementsByTagName("td")[10]; // Assumindo que a data está na 11ª coluna (índice 10)
+        console.log("Elemento TD de Data:", tdDate); // Mensagem de depuração
 
         if (tdDate) {
             txtValueDate = tdDate.textContent || tdDate.innerText;
+            console.log("Conteúdo Textual do Elemento TD de Data:", txtValueDate); // Mensagem de depuração
 
-            // Tentar extrair a data usando uma expressão regular
-            var match = /(\d{1,2}) de ([a-zA-Z]+) de (\d{4})/.exec(txtValueDate);
+            var parts = filterDate.split("-");
+            var filterDateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            console.log("Objeto de Data do Filtro:", filterDateObj); // Mensagem de depuração
 
-            if (match) {
-                // Formatar a data para "DD/MM/YYYY"
-                var monthNames = [
-                    "Janeiro", "Fevereiro", "Março",
-                    "Abril", "Maio", "Junho", "Julho",
-                    "Agosto", "Setembro", "Outubro",
-                    "Novembro", "Dezembro"
-                ];
+            var serverDateParts = txtValueDate.split(" de ");
+            var serverDate = new Date(serverDateParts[2], getMonthIndex(serverDateParts[1]), serverDateParts[0]);
+            console.log("Data do Servidor:", serverDate); // Mensagem de depuração
 
-                var monthIndex = monthNames.indexOf(match[2]);
-                var formattedDate = match[1].padStart(2, '0') + "/" + (monthIndex + 1).toString().padStart(2, '0') + "/" + match[3];
-
-                // Formatar a data de filtro para o mesmo formato
-                var datePartsFilter = filterDate.split("-");
-                var formattedFilterDate = datePartsFilter[2] + "/" + datePartsFilter[1] + "/" + datePartsFilter[0];
-
-                if (formattedDate === formattedFilterDate || filterDate === "") {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
+            if (!isNaN(serverDate.getTime()) && (filterDate === "" || serverDate.getTime() === filterDateObj.getTime())) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
         }
     }
 }
+
+function getMonthIndex(monthName) {
+    var monthNames = [
+        "Janeiro", "Fevereiro", "Março",
+        "Abril", "Maio", "Junho", "Julho",
+        "Agosto", "Setembro", "Outubro",
+        "Novembro", "Dezembro"
+    ];
+    return monthNames.indexOf(monthName);
+}
+
 
 
 
