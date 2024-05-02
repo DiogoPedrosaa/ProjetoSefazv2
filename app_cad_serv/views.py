@@ -47,21 +47,21 @@ def cadastrar(request):
             )
             servidor.total_pontos = pontos  
             servidor.gratificacao_pontos = gratificacao
-            
+
+            # Adicione o campo 'teste_tarefas' ao modelo
+            servidor.teste_tarefas = form.cleaned_data['teste_tarefas']
+
             servidor.save()
             messages.success(request, 'Lançamento Realizado com Sucesso!')
 
             setor_value = form.cleaned_data['setor']
             mes_referencia_value = form.cleaned_data['mes_referencia']
-            
 
             setor_value = str(setor_value)
             mes_referencia_value = str(mes_referencia_value)
 
-
             form.cleaned_data['Nome'] = ''
             form.cleaned_data['Matricula'] = ''
-
 
             messages.success(request, 'Formulário enviado com sucesso!')
 
@@ -248,10 +248,8 @@ def preencher_tarefas(request, servidor_id):
 
 @login_required
 def visualizar_tarefas_servidor(request, servidor_id):
-    servidor = get_object_or_404(Servidor, pk=servidor_id)
-    tarefas = TarefaRealizada.objects.filter(servidor=servidor)
-    tarefas_servidor = TarefaRealizada.objects.filter(data=servidor.mes_referencia)
-    return render(request, 'servidores/visualizar_tarefas_servidor.html', {'servidor': servidor, 'tarefas': tarefas, 'matricula': servidor.matricula, 'tarefas_servidor': tarefas_servidor})
+    servidor = Servidor.objects.get(pk=servidor_id)
+    return render(request, 'servidores/visualizar_tarefas_servidor.html', {'servidor': servidor, 'matricula': servidor.matricula, 'tarefa': servidor.teste_tarefas})
 
 
 @login_required
@@ -578,14 +576,19 @@ def dashboard(request):
 
 
 @login_required
-def excluir_tarefa(request, tarefa_id):
-    tarefa = get_object_or_404(TarefaRealizada, pk=tarefa_id)
+def excluir_tarefa(request, servidor_id):
     try:
-        tarefa.delete()
+        servidor = Servidor.objects.get(pk=servidor_id)
+
+        servidor.teste_tarefas = ""
+        
+        servidor.save()
+    except Servidor.DoesNotExist:
+        messages.error(request, 'Servidor não encontrado.')
     except Exception as e:
         messages.error(request, f'Ocorreu um erro ao excluir a tarefa: {str(e)}')
 
-    return redirect('visualizar_tarefas_servidor', servidor_id=tarefa.servidor.id)
+    return redirect('visualizar_tarefas_servidor', servidor_id=servidor_id)
 
 
 
@@ -767,7 +770,7 @@ def generate_pdf_servidor(request, servidor_id):
         secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
         elements.append(secretaria_paragraph)
 
-        col_widths = [180, 50, 40, 40, 70, 70, 70, 50, 60, 70, 80]
+        col_widths = [200, 50, 40, 40, 70, 70, 70, 50, 60, 70, 80]
 
         data = [
             ["Nome do Servidor", "Setor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Data Referente"]

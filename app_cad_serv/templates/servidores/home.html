@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -93,15 +94,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.menubar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
 
-.btn-group {
-  margin-bottom: 10px;
-}
+
 
 </style>
 
@@ -151,6 +145,8 @@
     
     
   </div>
+
+
   <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <a href="" class="home-btn">
@@ -158,6 +154,10 @@
     </a>
     <img src="static\img\Logout_Btn.png" alt="Logout" class="logout-btn" onclick="this.closest('form').submit()">
   </form>
+
+
+
+
 </div>
 {% endif %}
 <div id="mensagem-sucesso-form" style="color: green;"></div>

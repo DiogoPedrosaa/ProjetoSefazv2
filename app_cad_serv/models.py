@@ -165,6 +165,7 @@ class Servidor(models.Model):
     mes_referencia = models.DateField(default=datetime.date.today)
     setor = models.CharField(max_length=100, null=False, default='', choices=SETOR_CHOICES)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    teste_tarefas = models.TextField(blank=True, null=True)
 
 
 

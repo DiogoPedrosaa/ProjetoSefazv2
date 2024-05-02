@@ -8,15 +8,19 @@ class ServidorForm(forms.ModelForm):
 
     class Meta:
         model = Servidor
-        fields = ['nome', 'matricula', 'tipo_escala', 'escala', 'pontualidade', 'assiduidade', 'execucao_tarefas', 'iniciativa', 'atendimento_servicos', 'tipo_modalidade', 'mes_referencia', 'setor']
+        fields = ['nome', 'matricula', 'tipo_escala', 'escala', 'pontualidade', 'assiduidade', 'execucao_tarefas', 'iniciativa', 'atendimento_servicos', 'tipo_modalidade', 'mes_referencia', 'setor', 'teste_tarefas']
         labels = {
             'execucao_tarefas': 'Execução de Tarefas',
             'atendimento_servicos': 'Atendimento de Serviços',
-            'mes_referencia': 'Data de Referencia'
+            'mes_referencia': 'Data de Referencia',
+            'teste_tarefas': 'Tarefas Executadas'
         }
         widgets = {
             'mes_referencia': forms.DateInput(attrs={'type': 'date'}),
+            'teste_tarefas': forms.Textarea(attrs={'rows': 4, 'cols': 40})
         }
+        
+        
         
 
     

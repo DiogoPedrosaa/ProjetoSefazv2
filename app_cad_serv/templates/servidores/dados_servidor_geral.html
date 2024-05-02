@@ -280,7 +280,6 @@ font-weight: normal;
 
 
 
-<img id="toggleDarkModeButton" src="https://static-00.iconduck.com/assets.00/dark-theme-icon-512x512-185rlszm.png" alt="Modo Escuro" onclick="toggleDarkMode()">
 
 
 
@@ -293,11 +292,12 @@ font-weight: normal;
 
 
 
+
+<button class="btn btn-primary btn-filter" onclick="toggleFilters()">Filtragem</button>
 <div class="container-fluid text-center">
 
-  <div class="container-fluid text-center">
-    <button class="btn btn-primary btn-filter" onclick="toggleFilters()">Filtragem</button>
-</div>
+  
+
 
   
   <div id="filtroContainer" style="display: none;">
@@ -312,25 +312,7 @@ font-weight: normal;
      </div>
 
 </div>
-<table class="table table-bordered table-top">
-      <tbody>
-        <tr>
-          <td>PREFEITURA MUNICIPAL DE MACEIÓ</td>
-        </tr>
-        <tr>
-          <td>SECRETARIA MUNICIPAL DA FAZENDA</td>
-        </tr>
-        <tr>
-          <td>SETOR: COORD, GERAL DE ATENDIMENTO AO CONTRIBUINTE</td>
-        </tr>
-        <tr>
-          <td>COORDENADOR: {{ user.first_name }} {{ user.last_name }}</td>
-        </tr>
-        <tr>
-          <td>DATA REFÊRENCIA - <h2 id="datetime"></h2> </td>
-        </tr>
-      </tbody>
-    </table>
+
     <table id="tabelaServidores" class="table table-bordered">
       <thead>
         <tr>

@@ -76,6 +76,10 @@ p {
     color: #555;
 }
 
+.btn-group{
+  padding: 5px;
+}
+
 
 </style>
 <body>
@@ -115,12 +119,12 @@ p {
                   Cadastro
                 </button>
 
+                {% if user.is_authenticated and user.is_superuser %}
                 <ul class="dropdown-menu">
-                    {% if user.is_authenticated and user.is_superuser %}
                     <li><button class="dropdown-item" onclick="window.location.href='/cadastrar_pessoa'">Sistema de Cadastro de Pessoa</button></li>
-                    {%endif%}
-                </ul>
-              </div>
+                  </ul>
+                </div>
+                {%endif%}
 
               
         <form method="post" action="{% url 'logout' %}">
@@ -145,7 +149,7 @@ p {
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="mb-4">
-                    <p style="text-transform: uppercase;">Diretor/Coordenador: {{ tarefas.0.diretor_coordenador }}</p>
+                    <p style="text-transform: uppercase;">Diretor/Coordenador: {{ user.first_name }} {{ user.last_name }} </p>
                 </div>
                 <div class="mb-4">
                     <p style="font-weight: bold;">Colaborador: {{ servidor.nome }}</p>
@@ -153,37 +157,24 @@ p {
                 <div class="mb-4">
                     <p class="font-weight-bold">Matrícula: {{ servidor.matricula }}</p>
                 </div>
+                <p>Data Referente: {{ servidor.mes_referencia}} </p> 
                 <div>
-                    <p>Data Referente {{ servidor.mes_referencia }}</p>
                 </div>
             </div>
         </div>
-        <h3 class="mt-4">Relatório Das Tarefas Executadas:</h3>
+        <h4 class="mt-4">Relatório Das Tarefas Executadas:</h4>
         <ul>
-            {% for tarefa in tarefas %}
+           
             <li>
-                {{ tarefa.tarefas|linebreaksbr }}
-                
+                {{ servidor.teste_tarefas|linebreaksbr }}
+                <p> </p>
             </li>
             <p></p>
-            <li>
-                Data: {{ tarefa.data }}
-            </li>
-            <form method="post" action="{% url 'excluir_tarefa' tarefa.id %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm ml-2">
-                    <i class="fas fa-trash"></i> Excluir
-                </button>
-            </form>
-            <hr>
-            <p></p>
-            {% empty %}
-            <p>Nenhuma tarefa registrada para este servidor.</p>
-            {% endfor %}
+            
+            
+            
         </ul>
-        <a href="{% url 'preencher_tarefas' servidor.id %}" class="btn btn-primary">
-            <i class="fas fa-eye"></i> Preencher Tarefas
-          </a>
+    
 
     </div>
 
