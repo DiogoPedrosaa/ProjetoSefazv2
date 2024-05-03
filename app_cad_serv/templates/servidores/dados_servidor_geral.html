@@ -186,6 +186,17 @@ font-weight: normal;
   text-align: end;
   margin-right: 15px;
 }
+
+#mensagem-sucesso-form {
+  display: none;
+  background-color: #d4edda;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: #155724;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
   </style>
 
 </head>
@@ -274,12 +285,11 @@ font-weight: normal;
 
 
 
+
+
 <div id="mensagem-sucesso-form" style="color: green;">
 
-
 </div>
-
-
 <div id="conteudo">
 
 </div>
@@ -508,6 +518,8 @@ font-weight: normal;
                   var xhttpForm = new XMLHttpRequest();
                   xhttpForm.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
+
+                      var mensagemSucessoForm = $('#mensagem-sucesso-form');
                    
                       mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
                       console.log(this.responseText);
