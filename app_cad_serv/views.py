@@ -48,7 +48,6 @@ def cadastrar(request):
             servidor.total_pontos = pontos  
             servidor.gratificacao_pontos = gratificacao
 
-            # Adicione o campo 'teste_tarefas' ao modelo
             servidor.teste_tarefas = form.cleaned_data['teste_tarefas']
 
             servidor.save()

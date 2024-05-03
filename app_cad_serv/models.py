@@ -175,6 +175,9 @@ class TarefaRealizada(models.Model):
     diretor_coordenador = models.CharField(max_length=100, null= False)
     tarefas = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.servidor.nome
     
     
 

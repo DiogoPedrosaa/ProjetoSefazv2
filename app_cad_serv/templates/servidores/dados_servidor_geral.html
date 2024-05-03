@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/dados_servidor_geral.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <title>Dados dos Servidores</title>
 
   <style>
@@ -204,7 +205,7 @@ font-weight: normal;
         </button>
         <ul class="dropdown-menu">
          
-          <li><button class="dropdown-item" onclick="window.open('/cadastrar', '_blank')">Sistema de Lançamento</button></li>
+          <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
           
         </ul>
         
@@ -273,23 +274,15 @@ font-weight: normal;
 
 
 
+<div id="mensagem-sucesso-form" style="color: green;">
 
 
+</div>
 
 
+<div id="conteudo">
 
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 
@@ -310,6 +303,8 @@ font-weight: normal;
        <label for="matriculaInput" class="form-label">Filtrar por Matrícula:</label>
        <input type="text" class="form-control matricula-filter" id="matriculaInput" oninput="filterMatricula()">
      </div>
+
+     
 
 </div>
 
@@ -415,6 +410,133 @@ font-weight: normal;
         var filtroContainer = document.getElementById("filtroContainer");
         filtroContainer.style.display = (filtroContainer.style.display === "none" || filtroContainer.style.display === "") ? "block" : "none";
       }
+
+      
+  
+      function configurarSugestaoNomes() {
+        $('#id_nome').on('input', function () {
+          var inputNome = $(this).val().toLowerCase();
+          if (inputNome.trim() === '') {
+            $('#sugestoes-container').hide();
+            return;
+          }
+
+
+  
+          $.ajax({
+            url: '/api/api-pessoas/',
+            success: function (nomes) {
+              var sugestoes = nomes.filter(function (pessoa) {
+                return pessoa.nome.toLowerCase().includes(inputNome);
+              });
+  
+              var sugestoesContainer = $('#sugestoes-container');
+              sugestoesContainer.empty();
+  
+              if (sugestoes.length > 0) {
+                sugestoesContainer.show();
+              } else {
+                sugestoesContainer.hide();
+              }
+  
+              sugestoes.forEach(function (pessoa) {
+                var sugestaoDiv = $('<div class="sugestao-nome">' + pessoa.nome + '</div>');
+                sugestaoDiv.click(function () {
+                  $('#id_nome').val(pessoa.nome);
+                  $('#id_matricula').val(pessoa.pessoa_mat);
+                  sugestoesContainer.empty().hide();
+                });
+                sugestoesContainer.append(sugestaoDiv);
+              });
+            }
+          });
+        });
+      }
+  
+      function inicializarCalculoPontos() {
+        $('#formularioCadastro select').change(function () {
+          calcularTotalPontos();
+        });
+      }
+  
+      function calcularTotalPontos() {
+        var totalPontos = 0;
+  
+        var pontuacoes = {
+          '30': 30,
+          '20': 20,
+          '15': 15,
+          '10': 10,
+          '05': 5,
+          '08': 8,
+          '04': 4,
+          '02': 2,
+        };
+  
+        $('#formularioCadastro select').each(function () {
+          var escolha = $(this).val();
+          totalPontos += pontuacoes[escolha] || 0;
+        });
+  
+        $('#pontos-total').text(totalPontos);
+      }
+  
+      $(document).ready(function () {
+        configurarSugestaoNomes();
+  
+        var conteudoAberto = false;
+        document.getElementById('btnSistemaLancamento').addEventListener('click', function () {
+          if (conteudoAberto) {
+            document.getElementById('conteudo').innerHTML = '';
+            conteudoAberto = false;
+          } else {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('conteudo').innerHTML = this.responseText;
+                document.getElementById('conteudo').style.padding = '10px';
+                document.getElementById('conteudo').style.fontSize = '14px';
+                document.getElementById('conteudo').style.paddingLeft = '20px';
+                conteudoAberto = true;
+                configurarSugestaoNomes();
+                inicializarCalculoPontos();
+  
+                var form = document.getElementById('formularioCadastro');
+                form.addEventListener('submit', function (event) {
+                  event.preventDefault();
+                  var formData = new FormData(form);
+                  var xhttpForm = new XMLHttpRequest();
+                  xhttpForm.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                   
+                      mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
+                      console.log(this.responseText);
+                      form.reset();
+                      $('#pontos-total').text('0');
+                      mensagemSucessoForm.fadeOut(4000);
+                    }
+                  };
+                  xhttpForm.open('POST', '/cadastrar/', true);
+                  xhttpForm.send(formData);
+                });
+  
+  
+                $('#formularioCadastro #limpar-opcoes').click(function () {
+  
+                  $('#formularioCadastro')[0].reset();
+  
+  
+                  $('#pontos-total').text('0');
+                });
+              }
+            };
+            xhttp.open('GET', '/cadastrar/', true);
+            xhttp.send();
+          }
+        });
+      });
+
+      
   </script>
 </body>
 
