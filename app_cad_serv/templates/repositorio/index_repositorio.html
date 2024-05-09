@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="pt-br">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio Digital</title>
+    <link rel="stylesheet" href="{% static 'css/index_repositorio.css' %}">
+    <script src="{% static 'js/index_repositorio.js' %}"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="Logo do Site">
+            <h1>Repositório Digital</h1>
+            <p>SEFAZ</p>
+        </div>
+    </header>
+   
+    <body>
+
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% url 'formularios-repositorio' %}" class="btn-iniciar">Formulários</a>
+                </li>
+                <li>
+                    <a href="{% url 'instaladores-repositorio' %}">Instaladores</a>
+                </li>
+                <li>
+                    <a href="{% url 'fluxogramas-repositorio' %}">Fluxogramas</a>
+                </li>
+                <li>
+                    <a href="{% url 'documentosadmin-repositorio' %}">Documentos administrativos</a>
+                </li>
+                <li>
+                    <a href="{% url 'ramais-repositorio' %}">Ramais</a>
+                </li>
+                
+            </ul>
+        </nav>
+
+    <main>
+        <section class="Nossa Missão">
+            <h2>Missão</h2>
+            <p>Atuamos desde a gestão dessas informações até o suporte a ferramentas que ajudam os demais setores a coletá-las, armazená-las, processá-las e compartilhá-las.</p>
+          
+        </section>
+        <section class="Nossa Visão">
+            <h2>Visão</h2>
+            <p>Garantir um serviço de excelência para nossos colaboradores, contribuindo para o desenvolvimento tecnológico.</p>
+           
+        </section>
+        <section class="Nossos Valores">
+            <h2>Valores</h2>
+            <p>Ser conhecido como excelência na prestação de serviços de Tecnologia da Informação e Comunicação por nossos usuários.</p>
+           
+        </section>
+    </main>
+    
+    <div class="container">
+        <div class="container">
+          <img src="{% static 'img/imagem 1.png' %}" alt="Imagem 1">
+          <img src="{% static 'img/imagem 2.png' %}" alt="Imagem 2">
+          <img src="{% static 'img/imagem 3.png' %}" alt="Imagem 3">
+        </div>
+    
+    <footer>
+        <p>&copy; 2024 SEFAZ</p>
+    </footer>
+</body>
+</html>

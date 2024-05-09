@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.http import JsonResponse, HttpResponse
 from reportlab.pdfgen import canvas
+from .decorators import group_required
 
 
 logger = logging.getLogger(__name__)
@@ -70,7 +71,7 @@ def cadastrar(request):
     return render(request, 'servidores/cadastrar.html', {'form': form, 'setor_value': setor_value, 'mes_referencia_value': mes_referencia_value})
 
 
-
+@login_required
 def dados_servidor(request):
     allowed_groups = {'Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
                       'DTM', 'Subsec Rec Mun', 'Diretoria da Receita Municipal', 'Coordenação Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
@@ -547,8 +548,7 @@ def cadastrar_pessoa(request):
 
 
 def api_pessoas(request):
-    pessoas = Pessoa.objects.values('nome', 'pessoa_mat')
-    print(pessoas)  
+    pessoas = Pessoa.objects.values('nome', 'pessoa_mat') 
     return JsonResponse(list(pessoas), safe=False)
 
 
@@ -822,7 +822,40 @@ def generate_pdf_servidor(request, servidor_id):
         response['Content-Disposition'] = f'attachment; filename="Servidor_{servidor.id}_dados.pdf"'
         response.write(buffer.getvalue())
         return response
+
+
+
+
+
+
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def index_repositorio(request):
+    return render(request, 'repositorio/index_repositorio.html')
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def formularios_repositorio(request):
+    return render(request, 'repositorio/formularios_repositorio.html')
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def instaladores_repositorio(request):
+    return render(request, 'repositorio/instaladores_repositorio.html')
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def fluxogramas_repositorio(request):
+    return render(request, 'repositorio/fluxogramas_repositorio.html')
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def documentosadmin_repositorio(request):
+    return render(request, 'repositorio/documentos_admnistrativos_repositorio.html')
+
+@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+def ramais_repositorio(request):
+    return render(request, 'repositorio/ramais_repositorio.html')
     
     
+
+
+
 
 

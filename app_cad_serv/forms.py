@@ -75,4 +75,11 @@ class PessoaForm(forms.ModelForm):
             'pessoa_mat': 'Matrícula do Servidor',
         }
 
+    def clean_pessoa(self):
+        pessoa = self.cleaned_data.get('pessoa')
+        if len(pessoa) < 10:
+            raise ValidationError('O Nome do Servidor deve conter no minimo 10 caracteres.')
+        return pessoa    
+        
+
 

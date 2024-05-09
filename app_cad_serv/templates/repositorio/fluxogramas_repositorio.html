@@ -1,0 +1,54 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="pt-br">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/fluxograma_repositorio.css' %}">
+    <script src="{% static 'js/index_repositorio.js' %}"></script>
+</head>
+<body>
+    <header>
+        <h1>Fluxogramas</h1>
+    </header>
+    <header>
+        <h2>SEFAZ</h2>
+    </header>
+    <div class="container">
+        <a href="{%url 'index-repositorio'%}" class="btn-iniciar">Início</a>
+    </div>
+    <body>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Digite sua pesquisa...">
+            <button id="searchButton">Pesquisar</button>
+        </div>
+    
+        <div id="searchResults">
+           
+            <div class="link">
+                <a href="{% static 'pdf/Instalação_impressora_Manualmente.pdf' %}" target="_blank"> Instalação de Impressora</a>
+            </div>
+            
+            <div class="link">
+                <a href="{% static 'pdf/Reposição_de_Toner.pdf' %}" target="_blank"> Reposição de Toner</a>
+            </div>
+            
+            <div class="link">
+                <a href="{% static 'pdf/Acesso_Catraca.pdf' %}" target="_blank"> Acesso a Catraca</a>
+            </div>
+            
+            <div class="link">
+                <a href="{% static 'pdf/OpenKiosk.pdf' %}" target="_blank"> Openkiosk</a>
+            </div>
+             
+            <div class="link">
+                <a href="{% static 'pdf/VPN.pdf' %}" target="_blank"> Instalação de VPN</a>
+            </div>
+            <div class="link">
+                <a href="{% static 'pdf/Token.pdf' %}" target="_blank"> Configuração de Token</a>
+            </div>
+          
+            <footer>
+            <p>&copy; 2024 SEFAZ. Todos os direitos reservados.</p>
+        </footer>

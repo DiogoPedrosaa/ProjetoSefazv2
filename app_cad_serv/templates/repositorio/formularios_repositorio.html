@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="pt-br">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/formulários_repositorio.css' %}">
+    <script src="{% static 'js/index_repositorio.js' %}"></script>
+</head>
+<body>
+    <header>
+        <h1>Formulários</h1>
+    </header>
+    <header>
+        <h2>SEFAZ</h2>
+    </header>
+    <div class="container">
+        <a href="{% url 'index-repositorio' %}" class="btn-iniciar">Início</a>
+    </div>
+    <body>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Digite sua pesquisa...">
+            <button id="searchButton">Pesquisar</button>
+        </div>
+        
+        
+        <div class="link">
+            <a href="{% static 'pdf/Termo de Responsabilidade _ Versão 2.0.pdf' %}" target="_blank"> Termo de Responsabilidade </a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Termo de Responsabilidade de Acesso aos Serviços de Webmail.pdf' %}" target="_blank"> Termo de Responsabilidade Acesso ao Zimbra </a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/AUTORIZACAO-PARA-FERIAS.pdf' %}" target="_blank">Autorização para as férias </a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/AVISOGLPI.pdf' %}" target="_blank">Aviso GLPI</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/FORMULARIO-DE-AUSENCIA-DE-PROVA.docx' %}" target="_blank">Formulário de Ausência de prova</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Formulario-de-Justificativa-SEFAZ-Atualizado.pdf' %}" target="_blank">Formulário de Justificativa SEFAZ</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/formulario-REATIVACAO-DOS-DEPENDENTES.pdf' %}" target="_blank">Formulário de reativação de dependentes</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/MEMORANDO-CTIT-UNIDADE-DE-REDE-PÚBLICO-1.pdf' %}" target="_blank">Formulário Memorando CTIT</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Novo-Manual-Protocolo-Eletrônico-v1-1.pdf' %}" target="_blank">Formulário Protocolo Eletrônico</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Papel-timbrado-SEFAZ.docx' %}" target="_blank">Papel Timbrado SEFAZ</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Requerimento-Ambiental.pdf' %}" target="_blank">Requerimento Ambiental</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/Requerimento-Edilicio.pdf' %}" target="_blank">Requerimento Edilicio</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/REQUERIMENTO-IMOBILIARIO-2019.3-2.pdf' %}" target="_blank">Requerimento Imobiliário 2019</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/REQUERIMENTO-MERCANTIL-2019.3-1.pdf' %}" target="_blank">Requerimento Mercantil 2019</a>
+        </div>
+        <div class="link">
+            <a href="{% static 'pdf/REQUERIMENTO-SEFAZ-PROTOCOLO-GERAL (1).pdf' %}" target="_blank">Requerimento SEFAZ</a>
+        </div>
+    
+        <footer>
+            <p>&copy; 2024 SEFAZ. Todos os direitos reservados.</p>
+        </footer>
+</body>
+</html>

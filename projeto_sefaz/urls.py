@@ -4,6 +4,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from app_cad_serv import urls as app_cad_serv_urls
+from django.conf.urls import handler404
+from app_cad_serv.urls import custom_404_view
 
 
 schema_view = get_schema_view(
@@ -23,3 +25,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
 ]
+
+handler404 = custom_404_view
+
+

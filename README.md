@@ -7,4 +7,3 @@ TODO:
 <br>
 Melhorar o design do front, seguir o modelo dos programas da prefeitura.
 
-Corrigir o PDF para baixar somente as informações filtradas.

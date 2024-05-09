@@ -264,3 +264,9 @@ width: 5%;
 #tabelaServidores td.text-center:nth-child(12){
 width: 5%;
 }
+
+
+.btn-acoes{
+  background-color: transparent;
+  border: transparent;
+}

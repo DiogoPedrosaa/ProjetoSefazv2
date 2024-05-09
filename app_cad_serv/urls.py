@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.conf.urls import handler404
+from django.shortcuts import render
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -25,4 +27,13 @@ urlpatterns = [
     path('download_pdf_setores/', views.generate_pdf_setores, name='download_pdf_setores'),
     path('download_pdf_setores_geral/', views.generate_pdf_setores_geral, name='download_pdf_setores_geral'),
     path('download_pdf_servidor/<int:servidor_id>/', views.generate_pdf_servidor, name='download_pdf_servidor'),
+    path('repositorio/', views.index_repositorio, name='index-repositorio'),
+    path('repositorio-formularios/', views.formularios_repositorio, name='formularios-repositorio'),
+    path('repositorio-instaladores/', views.instaladores_repositorio, name='instaladores-repositorio'),
+    path('repositorio-fluxogramas/', views.fluxogramas_repositorio, name='fluxogramas-repositorio'),
+    path('repositorio-documentos-admnistrativos/', views.documentosadmin_repositorio, name='documentosadmin-repositorio'),
+    path('repositorio-ramais/', views.ramais_repositorio, name='ramais-repositorio')
 ]
+
+def custom_404_view(request, exception):
+    return render(request, 'servidores/404.html', status=404)    
