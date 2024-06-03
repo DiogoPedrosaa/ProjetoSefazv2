@@ -23,13 +23,14 @@
   {% if user.is_authenticated %}
   <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
   <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
-  <div class="menubar">
 
+  <div class="menubar">
+    
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Lançamento
       </button>
-
+      
       <ul class="dropdown-menu">
         <li><button id="btnSistemaLancamento" class="dropdown-item">Sistema de Lançamento</button></li>
       </ul>
@@ -39,23 +40,24 @@
       <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Consulta
       </button>
-
-
-
+      
+      
       <ul class="dropdown-menu">
         <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor'">Consulta de Lançamentos</button></li>
         <li><button class="dropdown-item" onclick="window.location.href='/dados_servidor_geral'">Consulta de Dados Gerais</button></li>
         {% if user.is_authenticated and user.is_superuser %}
         <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
         {% endif %}
+        <li><button class="dropdown-item" onclick="window.location.href='/repositorio'">Repositorio</button></li>
       </ul>
     </div>
-
-   
+    
+    
+    
     
   </div>
-
-
+  
+  
   <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <a href="" class="home-btn">
@@ -63,10 +65,10 @@
     </a>
     <img src="{% static 'img/Logout_Btn.png' %}" alt="Logout" class="logout-btn" onclick="this.closest('form').submit()">
   </form>
-
-
-
-
+  
+  
+  
+  
 </div>
 {% endif %}
 <div id="mensagem-sucesso-form" style="color: green;"></div>
@@ -189,7 +191,9 @@
                  
                     mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
                     console.log(this.responseText);
-                    form.reset();
+                    $('#id_nome').val('');
+                    $('#id_matricula').val('');
+                    
                     $('#pontos-total').text('0');
                     mensagemSucessoForm.fadeOut(4000);
                   }

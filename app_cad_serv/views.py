@@ -5,8 +5,9 @@ from .forms import ServidorForm, TarefaRealizadaForm, SignUpForm, PessoaForm
 from django.http import FileResponse
 from io import BytesIO
 from reportlab.lib import colors
+from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import Paragraph
 import locale, logging
@@ -73,11 +74,11 @@ def cadastrar(request):
 
 @login_required
 def dados_servidor(request):
-    allowed_groups = {'Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
-                      'DTM', 'Subsec Rec Mun', 'Diretoria da Receita Municipal', 'Coordenação Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
+    allowed_groups = {'Coord. De Tec. da Informação e Telecomunicações', 'Coord. de Gestão de Pessoas', 'Coord. Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsecretaria da Receita Municipal', 'Diretoria da Receita Municipal', 'Coord. Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
                       'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Diretoria de Gestão de Contatros e Contratações', 'Superintendência',
-                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
-                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Cadastro Mercantil',
+                      'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
 
     user_group = None
     if request.user.groups.exists():
@@ -254,12 +255,13 @@ def visualizar_tarefas_servidor(request, servidor_id):
 
 @login_required
 def generate_pdf(request):
-   
-    allowed_groups = {'Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
-                      'DTM', 'Subsec Rec Mun', 'Diretoria da Receita Municipal', 'Coordenação Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
+
+    
+    allowed_groups = {'Coord. De Tec. da Informação e Telecomunicações', 'Coord. de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsecretaria da Receita Municipal', 'Diretoria da Receita Municipal', 'Coord. Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
                       'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Diretoria de Gestão de Contatros e Contratações', 'Superintendência',
-                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
-                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Cadastro Mercantil',
+                      'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
 
     user_group = None
     if request.user.groups.exists():
@@ -269,35 +271,40 @@ def generate_pdf(request):
         servidores = Servidor.objects.filter(setor=user_group)
     else:
         servidores = Servidor.objects.filter(user=request.user)
-        
 
-    buffer = BytesIO()
 
     
-    custom_page_size = landscape(letter)
+    buffer = BytesIO()
 
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    custom_page_size = landscape(letter)
+    custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
+    custom_page_height = 11 * inch  # 11 polegadas
+
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20)
     elements = []
 
     secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-    secretaria_style = getSampleStyleSheet()['Title']
-    secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
 
+    # Definindo um estilo para o parágrafo da secretaria
+    secretaria_style = ParagraphStyle(
+        name='SecretariaStyle',
+        fontSize=16,
+        alignment=1  # centralizado
+    )
+
+    secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
 
-
-    col_widths = [200, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
-
+    col_widths = [200, 50, 50, 70, 70, 80, 70, 80, 65, 200, 70, 90]
 
     data = []
-    data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos",])
+    data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Setor", "Data"])
 
     for servidor in servidores:
-        data.append([servidor.nome, servidor.escala, servidor.matricula, servidor.pontualidade, servidor.assiduidade, servidor.execucao_tarefas, servidor.iniciativa, servidor.atendimento_servicos, servidor.total_pontos])
-
-    
-    table = Table(data, colWidths=col_widths)
-
+        data_referencia = servidor.mes_referencia
+        data_formatada = data_referencia.strftime("%d/%m/%Y")
+        data.append([servidor.nome, servidor.escala, servidor.matricula, servidor.pontualidade, servidor.assiduidade, servidor.execucao_tarefas, servidor.iniciativa, servidor.atendimento_servicos, servidor.total_pontos, servidor.setor, data_formatada])
+        table = Table(data, colWidths=col_widths)
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -309,9 +316,6 @@ def generate_pdf(request):
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
     ])
 
-
-
-  
     style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
     style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
     style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
@@ -319,24 +323,17 @@ def generate_pdf(request):
     style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
     style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
     style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
-
-
     style.add('LEADING', (0, 1), (-1, -1), 10)
 
-    
     table.setStyle(style)
 
-    
+    elements.append(Paragraph("<br/><br/>", style=secretaria_style))
     elements.append(table)
     doc.build(elements)
 
-    
     buffer.seek(0)
 
-
     response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores.pdf')
-
-
 
     return response
 
@@ -347,11 +344,11 @@ def generate_pdf(request):
 @login_required
 def generate_pdf_geral(request):
  
-    allowed_groups = {'Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
-                      'DTM', 'Subsec Rec Mun', 'Diretoria da Receita Municipal', 'Coordenação Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
+    allowed_groups = {'Coord. De Tec. da Informação e Telecomunicações', 'Coord. de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsecretaria da Receita Municipal', 'Diretoria da Receita Municipal', 'Coord. Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
                       'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Diretoria de Gestão de Contatros e Contratações', 'Superintendência',
-                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
-                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Cadastro Mercantil',
+                      'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
 
     user_group = None
     if request.user.groups.exists():
@@ -365,36 +362,26 @@ def generate_pdf_geral(request):
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
+    custom_page_height = 11 * inch  # 11 polegadas
+
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20)
     elements = []
-
-    info_table_data = [
-        ["PREFEITURA MUNICIPAL DE MACEIÓ"],
-        ["SECRETARIA MUNICIPAL DA FAZENDA"],
-        ["SETOR: COORD, GERAL DE ATENDIMENTO AO CONTRIBUINTE"],
-        ["COORDENADOR:" f"{request.user.first_name} {request.user.last_name}"],
-        ["MÊS REFERÊNCIA - teste"]
-    ]
-    info_table = Table(info_table_data, colWidths=[200])
-
-    info_table.setStyle(TableStyle([
-        ('LEFTPADDING', (0, 0), (-1, -1), -265),
-    ]))
-
-    elements.append(info_table)
 
     secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
     secretaria_style = getSampleStyleSheet()['Title']
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
 
-    col_widths = [170, 50, 70, 70, 70, 60, 70, 90, 60]
+    col_widths = [170, 50, 70, 70, 70, 60, 70, 90, 200, 60]
 
     data = [
-        ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Nº SERV"]
+        ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Setor", "Data"]
     ]
 
     for servidor in servidores:
+        data_referencia = servidor.mes_referencia
+        data_formatada = data_referencia.strftime("%d/%m/%Y") 
         data.append([
             servidor.nome,
             servidor.matricula,
@@ -404,7 +391,8 @@ def generate_pdf_geral(request):
             servidor.escala,
             servidor.calcular_valor_escala(), 
             servidor.total_pontos,
-            servidor.id
+            servidor.setor,
+            data_formatada
         ])
 
     table = Table(data, colWidths=col_widths)
@@ -461,11 +449,11 @@ def excluir_servidor(request, servidor_id):
 
 @login_required
 def dados_servidor_geral(request):
-    allowed_groups = {'Coordenação de Tecnologia da Informação e Telecomunicações', 'Coordenação de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
-                      'DTM', 'Subsec Rec Mun', 'Diretoria da Receita Municipal', 'Coordenação Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
+    allowed_groups = {'Coord. De Tec. da Informação e Telecomunicações', 'Coord. de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
+                      'DTM', 'Subsecretaria da Receita Municipal', 'Diretoria da Receita Municipal', 'Coord. Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
                       'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Diretoria de Gestão de Contatros e Contratações', 'Superintendência',
-                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Catraca', 'Cadastro Mercantil',
-                      'Triagem', 'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
+                      'UGOCC', 'Inteligência fiscal', 'Auto de Infração', 'Cadastro Mercantil',
+                      'Cadastro Imobiliário', 'Geoprocessamento', 'Apoio Atendimento'}
 
     user_group = None
     if request.user.groups.exists():
@@ -593,16 +581,15 @@ def excluir_tarefa(request, servidor_id):
 
 @login_required
 def generate_pdf_setores(request):
-   
     servidores = Servidor.objects.all()
-    
 
     buffer = BytesIO()
 
-    
-    custom_page_size = landscape(letter)
+    custom_page_width = 14 * inch  # largura da página em polegadas
+    custom_page_height = 11 * inch  # altura da página em polegadas
+    custom_page_size = landscape((custom_page_width, custom_page_height))
 
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=25, leftMargin=20)
     elements = []
 
     secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
@@ -611,19 +598,17 @@ def generate_pdf_setores(request):
 
     elements.append(secretaria_paragraph)
 
-
-    col_widths = [200, 50, 50, 70, 70, 80, 70, 90, 60, 60, 70]
-
+    col_widths = [200, 50, 50, 70, 70, 80, 60, 80, 65, 200, 70, 90]
 
     data = []
-    data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos",])
+    data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Setor", "Data"])
 
     for servidor in servidores:
-        data.append([servidor.nome, servidor.escala, servidor.matricula, servidor.pontualidade, servidor.assiduidade, servidor.execucao_tarefas, servidor.iniciativa, servidor.atendimento_servicos, servidor.total_pontos])
-
+        data_referencia = servidor.mes_referencia
+        data_formatada = data_referencia.strftime("%d/%m/%Y")
+        data.append([servidor.nome, servidor.escala, servidor.matricula, servidor.pontualidade, servidor.assiduidade, servidor.execucao_tarefas, servidor.iniciativa, servidor.atendimento_servicos, servidor.total_pontos, servidor.setor, data_formatada])
+        table = Table(data, colWidths=col_widths)
     
-    table = Table(data, colWidths=col_widths)
-
 
     style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -635,36 +620,26 @@ def generate_pdf_setores(request):
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
     ])
 
-
-
-  
     style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
     style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
     style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
     style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
     style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
-    style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
-    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
-
-
+    style.add('FONTSIZE', (0, 1), (-1, -1), 7)
+    style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3)
     style.add('LEADING', (0, 1), (-1, -1), 10)
 
-    
     table.setStyle(style)
 
-    
     elements.append(table)
     doc.build(elements)
 
-    
     buffer.seek(0)
-
 
     response = FileResponse(buffer, as_attachment=True, filename='Dados_Servidores_Setores.pdf')
 
-
-
     return response
+
 
 
 
@@ -677,33 +652,20 @@ def generate_pdf_setores_geral(request):
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=50, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=20, leftMargin=20)
     elements = []
 
-    info_table_data = [
-        ["PREFEITURA MUNICIPAL DE MACEIÓ"],
-        ["SECRETARIA MUNICIPAL DA FAZENDA"],
-        ["SETOR: COORD, GERAL DE ATENDIMENTO AO CONTRIBUINTE"],
-        ["COORDENADOR:" f"{request.user.first_name} {request.user.last_name}"],
-        ["MÊS REFERÊNCIA - teste"]
-    ]
-    info_table = Table(info_table_data, colWidths=[200])
 
-    info_table.setStyle(TableStyle([
-        ('LEFTPADDING', (0, 0), (-1, -1), -265),
-    ]))
-
-    elements.append(info_table)
 
     secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
     secretaria_style = getSampleStyleSheet()['Title']
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
 
-    col_widths = [170, 50, 70, 70, 70, 60, 70, 90, 60]
+    col_widths = [180, 50, 70, 50, 70, 45, 70, 60, 170]
 
     data = [
-        ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Nº SERV"]
+        ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Setor"]
     ]
 
     for servidor in servidores:
@@ -716,7 +678,7 @@ def generate_pdf_setores_geral(request):
             servidor.escala,
             servidor.calcular_valor_escala(), 
             servidor.total_pontos,
-            servidor.id
+            servidor.setor
         ])
 
     table = Table(data, colWidths=col_widths)
@@ -736,7 +698,7 @@ def generate_pdf_setores_geral(request):
     style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
     style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
     style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
-    style.add('FONTSIZE', (0, 1), (-1, -1), 8)
+    style.add('FONTSIZE', (0, 1), (-1, -1), 7)
     style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3)
     style.add('LEADING', (0, 1), (-1, -1), 10)
 
@@ -753,45 +715,57 @@ def generate_pdf_setores_geral(request):
 
 
 def generate_pdf_servidor(request, servidor_id):
-        servidor = get_object_or_404(Servidor, id=servidor_id)
-        
-        data_referencia = servidor.mes_referencia
-        
-        data_formatada = data_referencia.strftime("%d/%m/%Y")
+    servidor = get_object_or_404(Servidor, id=servidor_id)
+    
+    data_referencia = servidor.mes_referencia
+    data_formatada = data_referencia.strftime("%d/%m/%Y")
 
-        buffer = BytesIO()
-        custom_page_size = landscape(letter)
-        doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=10, leftMargin=10)
-        elements = []
+    buffer = BytesIO()
+    custom_page_size = landscape(letter)
+    
 
-        secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-        secretaria_style = getSampleStyleSheet()['Title']
-        secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
-        elements.append(secretaria_paragraph)
+    custom_page_width = 14 * inch 
+    custom_page_height = 11 * inch  
+    custom_page_size = (custom_page_width, custom_page_height)
 
-        col_widths = [200, 50, 40, 40, 70, 70, 70, 50, 60, 70, 80]
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=1*inch, leftMargin=1*inch)
+    elements = []
 
-        data = [
-            ["Nome do Servidor", "Setor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Data Referente"]
-        ]
+    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
+    secretaria_style = ParagraphStyle(
+    name='SecretariaStyle',
+    fontSize=16,
+    alignment=1  
+)
 
-        data.append([
-            servidor.nome,
-            servidor.setor,
-            servidor.escala,  
-            servidor.matricula,
-            servidor.pontualidade,
-            servidor.assiduidade,
-            servidor.execucao_tarefas, 
-            servidor.iniciativa,
-            servidor.atendimento_servicos,
-            servidor.total_pontos,
-            data_formatada
-        ])
 
-        table = Table(data, colWidths=col_widths)  
+    secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
 
-        style = TableStyle([
+    elements.append(secretaria_paragraph)
+
+    col_widths = [2.5*inch, 230, 0.5*inch, 0.5*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1.0*inch]
+
+    data = [
+        ["Nome do Servidor", "Setor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Data Referente"]
+    ]
+
+    data.append([
+        servidor.nome,
+        servidor.setor,
+        servidor.escala,  
+        servidor.matricula,
+        servidor.pontualidade,
+        servidor.assiduidade,
+        servidor.execucao_tarefas, 
+        servidor.iniciativa,
+        servidor.atendimento_servicos,
+        servidor.total_pontos,
+        data_formatada
+    ])
+
+    table = Table(data, colWidths=col_widths)  
+
+    style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -799,29 +773,27 @@ def generate_pdf_servidor(request, servidor_id):
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('FONTSIZE', (0, 1), (-1, -1), 8),  
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 4),
+        ('LEADING', (0, 1), (-1, -1), 10),
     ])
 
-        style.add('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold')
-        style.add('ALIGN', (0, 0), (-1, -1), 'CENTER')
-        style.add('TEXTCOLOR', (0, 1), (-1, -1), colors.black)
-        style.add('BACKGROUND', (0, 1), (-1, -1), colors.white)
-        style.add('GRID', (0, 0), (-1, -1), 1, colors.black)
-        style.add('FONTSIZE', (0, 1), (-1, -1), 8)  
-        style.add('BOTTOMPADDING', (0, 1), (-1, -1), 3) 
-        
-        style.add('LEADING', (0, 1), (-1, -1), 10)
+    table.setStyle(style)
+    
+    elements.append(Paragraph("<br/><br/>", style=secretaria_style))
+    elements.append(table)
 
-        table.setStyle(style)
-        
-        elements.append(table)
+    doc.build(elements)
+    buffer.seek(0)
 
-        doc.build(elements)
-        buffer.seek(0)
-
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="Servidor_{servidor.id}_dados.pdf"'
-        response.write(buffer.getvalue())
-        return response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Servidor_{servidor.id}_dados.pdf"'
+    response.write(buffer.getvalue())
+    return response
 
 
 
@@ -829,27 +801,27 @@ def generate_pdf_servidor(request, servidor_id):
 
 
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def index_repositorio(request):
     return render(request, 'repositorio/index_repositorio.html')
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def formularios_repositorio(request):
     return render(request, 'repositorio/formularios_repositorio.html')
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def instaladores_repositorio(request):
     return render(request, 'repositorio/instaladores_repositorio.html')
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def fluxogramas_repositorio(request):
     return render(request, 'repositorio/fluxogramas_repositorio.html')
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def documentosadmin_repositorio(request):
     return render(request, 'repositorio/documentos_admnistrativos_repositorio.html')
 
-@group_required('Coordenação de Tecnologia da Informação e Telecomunicações')
+@group_required('Coord. De Tec. da Informação e Telecomunicações')
 def ramais_repositorio(request):
     return render(request, 'repositorio/ramais_repositorio.html')
     

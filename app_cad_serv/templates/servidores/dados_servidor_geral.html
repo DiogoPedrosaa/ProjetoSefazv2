@@ -62,7 +62,7 @@
         </button>
         <ul class="dropdown-menu">
 
-          <li><button class="dropdown-item" onclick="window.location.href='/download_pdf'">Gerar Relatorio Setor</button></li>
+          <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_geral'">Gerar Relatorio Setor</button></li>
           <li><button class="dropdown-item" onclick="window.location.href='/download_pdf_setores_geral'">Gerar Relatorio Geral</button></li>
         </ul>
     </div>
@@ -138,7 +138,7 @@
           <th>ESCALA</th>
           <th>V.P ATUAL</th>
           <th>Total Pontos</th>
-          <th> Nº SERV </th>
+         
         </tr>
       </thead>
       <tbody>
@@ -153,7 +153,7 @@
           <td> {{servidor.escala}}</td>
           <td> {{ servidor.calcular_valor_escala }} </td>
           <td>{{ servidor.total_pontos }}</td>
-          <td> {{ servidor.id }}</td>
+          
         </tr>
         {% endfor %}
       </tbody>
@@ -333,7 +333,8 @@
                    
                       mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
                       console.log(this.responseText);
-                      form.reset();
+                      $('#id_nome').val('');
+                      $('#id_matricula').val('');
                       $('#pontos-total').text('0');
                       mensagemSucessoForm.fadeOut(4000);
                     }

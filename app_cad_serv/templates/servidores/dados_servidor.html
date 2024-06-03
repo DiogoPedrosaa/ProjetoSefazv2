@@ -170,7 +170,7 @@
           <td>
             <div class="botoes">
               <a href="{% url 'visualizar_tarefas_servidor' servidor.id %}" class="btn btn-primary btn-sm icon-azul mb-2 mb-md-0 btn-acoes">
-                <img src="https://simpleicon.com/wp-content/uploads/pencil-256x256.png" class="lapis-icon" alt="Icone Lapis">
+                <img src="https://i.imgur.com/rZutUzz.png" class="lapis-icon" alt="Icone Lapis">
               </a>
               <a href="{% url 'excluir_servidor' servidor.id %}" class="btn btn-danger btn-sm mr-2 mb-2 mb-md-0 btn-acoes">
                 <img src="https://cdn-icons-png.flaticon.com/512/542/542724.png" class="lixo-icon" alt="Icone Lixeira">
@@ -410,7 +410,9 @@ function filterMatricula() {
                    
                       mensagemSucessoForm.html('Lançamento Realizado com sucesso!').show();
                       console.log(this.responseText);
-                      form.reset();
+                      $('#id_nome').val('');
+                      $('#id_matricula').val('');
+                      
                       $('#pontos-total').text('0');
                       mensagemSucessoForm.fadeOut(4000);
                     }

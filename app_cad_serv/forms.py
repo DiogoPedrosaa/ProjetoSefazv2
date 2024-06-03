@@ -16,8 +16,10 @@ class ServidorForm(forms.ModelForm):
             'teste_tarefas': 'Tarefas Executadas'
         }
         widgets = {
+            'nome': forms.TextInput(attrs={'style': 'width: 270px;'}),
             'mes_referencia': forms.DateInput(attrs={'type': 'date'}),
-            'teste_tarefas': forms.Textarea(attrs={'rows': 4, 'cols': 40})
+            'teste_tarefas': forms.Textarea(attrs={'rows': 5, 'cols': 55}),
+            'matricula': forms.TextInput(attrs={'style': 'width: 80px;'}),
         }
         
         
