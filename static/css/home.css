@@ -61,12 +61,6 @@
   margin-left: auto;
 }
 
-/* Estilo para o texto de versão */
-.version-text {
-  text-align: end;
-  margin-right: 15px;
-}
-
 #mensagem-sucesso-form {
   display: none;
   background-color: #d4edda;
@@ -84,8 +78,6 @@
   gap: 10px;
 }
 
-.btn-group {
-  margin-bottom: 10px;
-}
+
 
 

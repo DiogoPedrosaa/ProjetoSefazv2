@@ -32,7 +32,8 @@ urlpatterns = [
     path('repositorio-instaladores/', views.instaladores_repositorio, name='instaladores-repositorio'),
     path('repositorio-fluxogramas/', views.fluxogramas_repositorio, name='fluxogramas-repositorio'),
     path('repositorio-documentos-admnistrativos/', views.documentosadmin_repositorio, name='documentosadmin-repositorio'),
-    path('repositorio-ramais/', views.ramais_repositorio, name='ramais-repositorio')
+    path('repositorio-ramais/', views.ramais_repositorio, name='ramais-repositorio'),
+    path('index/', views.homepage, name='index-site'),
 ]
 
 def custom_404_view(request, exception):

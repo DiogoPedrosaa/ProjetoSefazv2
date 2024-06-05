@@ -6,7 +6,7 @@ from django.http import FileResponse
 from io import BytesIO
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.platypus import Paragraph
@@ -256,7 +256,6 @@ def visualizar_tarefas_servidor(request, servidor_id):
 @login_required
 def generate_pdf(request):
 
-    
     allowed_groups = {'Coord. De Tec. da Informação e Telecomunicações', 'Coord. de Gestão de Pessoas', 'Coordenação Geral de Auditoria Fiscal', 'Diretoria Administrativa', 'ASCOM', 'Orçamento', 'Gab Orçamento',
                       'DTM', 'Subsecretaria da Receita Municipal', 'Diretoria da Receita Municipal', 'Coord. Geral da Receita Municipal', 'Diretoria do Atendimento ao Contribuinte',
                       'Arrecadação', 'ITBI', 'Digitalização CTIT', 'Diretoria de Gestão de Contatros e Contratações', 'Superintendência',
@@ -272,28 +271,55 @@ def generate_pdf(request):
     else:
         servidores = Servidor.objects.filter(user=request.user)
 
-
-    
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
     custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
     custom_page_height = 11 * inch  # 11 polegadas
 
-    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
-    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
+    # Adicionando a imagem
+    image_path = 'static/img/image-removebg-preview.png'  # substitua pelo caminho real da sua imagem
+    img = Image(image_path)
+    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawWidth = 2 * inch
+    elements.append(img)
+
+    secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
 
     # Definindo um estilo para o parágrafo da secretaria
     secretaria_style = ParagraphStyle(
         name='SecretariaStyle',
         fontSize=16,
-        alignment=1  # centralizado
+        alignment=1,  # centralizado
+        fontName='Helvetica-Bold',  # fonte em negrito
+        spaceBefore = 0,
+        spaceAfter = 0
     )
 
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
+    elements.append(Spacer(1, 6))
+
+
+    texto1 = ("Praça dos palmares, n° 47, CEP 57020-150, Centro, Maceió - AL")
+    texto2 = ("Tel..: (082)3312-5051, CNPJ. 19.164.089/0001-50")
+
+    estilo_texto = ParagraphStyle(
+        name='EstiloTexto',
+        fontSize = 12,
+        alignment = 1,
+        LEADING = 15,
+    )
+
+    texto_paragrafo_1 = Paragraph(texto1, style = estilo_texto)
+    texto_paragrafo_2 = Paragraph(texto2, style = estilo_texto)
+
+    elements.append(texto_paragrafo_1)
+    elements.append(Spacer(1,2))
+    elements.append(texto_paragrafo_2)
 
     col_widths = [200, 50, 50, 70, 70, 80, 70, 80, 65, 200, 70, 90]
 
@@ -341,6 +367,10 @@ def generate_pdf(request):
 
 
 
+
+
+
+
 @login_required
 def generate_pdf_geral(request):
  
@@ -361,19 +391,54 @@ def generate_pdf_geral(request):
         
     buffer = BytesIO()
 
+
     custom_page_size = landscape(letter)
     custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
     custom_page_height = 11 * inch  # 11 polegadas
 
-    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
-    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-    secretaria_style = getSampleStyleSheet()['Title']
+    image_path = 'https://assets.infra.grancursosonline.com.br/projeto/prefeitura-municipal-de-maceio-al.png'  # substitua pelo caminho real da sua imagem
+    img = Image(image_path)
+    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawWidth = 2 * inch
+    elements.append(img)
+
+    secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
+
+    secretaria_style = ParagraphStyle(
+    name='SecretariaStyle',
+    fontSize=16,
+    alignment=1,  # centralizado
+    fontName='Helvetica-Bold',  # fonte em negrito
+    spaceBefore=0,
+    spaceAfter=4
+)
+
+# Usando o estilo personalizado para a secretaria
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
 
-    col_widths = [170, 50, 70, 70, 70, 60, 70, 90, 200, 60]
+
+    texto1 = ("Praça dos palmares, n° 47, CEP 57020-150, Centro, Maceió - AL")
+    texto2 = ("Tel..: (082)3312-5051, CNPJ. 19.164.089/0001-50")
+
+    estilo_texto = ParagraphStyle(
+        name='EstiloTexto',
+        fontSize = 12,
+        alignment = 1,
+        LEADING = 15
+    )
+
+    texto_paragrafo_1 = Paragraph(texto1, style = estilo_texto)
+    texto_paragrafo_2 = Paragraph(texto2, style = estilo_texto)
+
+    elements.append(texto_paragrafo_1)
+    elements.append(texto_paragrafo_2)
+    elements.append(Spacer(1,3))
+
+    col_widths = [200, 50, 70, 70, 70, 60, 70, 90, 200, 60]
 
     data = [
         ["Nome do Servidor", "Mat.", "Gratificação", "Administ", "Observação", "Escala", "V.P ATUAL", "Total Pontos", "Setor", "Data"]
@@ -482,7 +547,7 @@ def login_page(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('index-site')
             else:
                 messages.error(request, 'Credenciais inválidas. Por favor, tente novamente.')
         else:
@@ -589,16 +654,47 @@ def generate_pdf_setores(request):
     custom_page_height = 11 * inch  # altura da página em polegadas
     custom_page_size = landscape((custom_page_width, custom_page_height))
 
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=25, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
-    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-    secretaria_style = getSampleStyleSheet()['Title']
+    image_path = 'static/img/image-removebg-preview.png'  # substitua pelo caminho real da sua imagem
+    img = Image(image_path)
+    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawWidth = 2 * inch
+    elements.append(img)
+
+    secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
+    secretaria_style = ParagraphStyle(
+    name='SecretariaStyle',
+    fontSize=16,
+    alignment=1,  # centralizado
+    fontName='Helvetica-Bold',  # fonte em negrito
+    spaceBefore=0,
+    spaceAfter=4
+)
+
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
 
     elements.append(secretaria_paragraph)
 
     col_widths = [200, 50, 50, 70, 70, 80, 60, 80, 65, 200, 70, 90]
+
+    texto1 = ("Praça dos palmares, n° 47, CEP 57020-150, Centro, Maceió - AL")
+    texto2 = ("Tel..: (082)3312-5051, CNPJ. 19.164.089/0001-50")
+
+    estilo_texto = ParagraphStyle(
+        name='EstiloTexto',
+        fontSize = 12,
+        alignment = 1,
+        LEADING = 15,
+    )
+
+    texto_paragrafo_1 = Paragraph(texto1, style = estilo_texto)
+    texto_paragrafo_2 = Paragraph(texto2, style = estilo_texto)
+
+    elements.append(texto_paragrafo_1)
+    elements.append(texto_paragrafo_2)
+    elements.append(Spacer(1,6))
 
     data = []
     data.append(["Nome do Servidor", "Escala", "Mat.", "Pontualidade", "Assiduidade", "Exec. Tarefas", "Iniciativa", "At. Serviços", "Total Pontos", "Setor", "Data"])
@@ -646,21 +742,53 @@ def generate_pdf_setores(request):
 
 @login_required
 def generate_pdf_setores_geral(request):
- 
+
     servidores = Servidor.objects.all()
-    
+
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=20, leftMargin=20)
+    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=20, leftMargin=20, topMargin = 3)
     elements = []
 
+    # Adicionando a imagem
+    image_path = 'static/img/image-removebg-preview.png'  # substitua pelo caminho real da sua imagem
+    img = Image(image_path)
+    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawWidth = 2 * inch
+    elements.append(img)
 
+    secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
 
-    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-    secretaria_style = getSampleStyleSheet()['Title']
+    secretaria_style = ParagraphStyle(
+    name='SecretariaStyle',
+    fontSize=16,
+    alignment=1,  # centralizado
+    fontName='Helvetica-Bold',  # fonte em negrito
+    spaceBefore=0,
+    spaceAfter=4
+)
+
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
     elements.append(secretaria_paragraph)
+
+    # Texto 1 e 2
+    texto1 = "Praça dos palmares, n° 47, CEP 57020-150, Centro, Maceió - AL"
+    texto2 = "Tel.: (082)3312-5051, CNPJ. 19.164.089/0001-50"
+
+    estilo_texto = ParagraphStyle(
+        name='EstiloTexto',
+        fontSize = 12,
+        alignment = 1,
+        LEADING = 15,
+    )
+
+    texto_paragrafo_1 = Paragraph(texto1, style=estilo_texto)
+    texto_paragrafo_2 = Paragraph(texto2, style=estilo_texto)
+
+    elements.append(texto_paragrafo_1)
+    elements.append(texto_paragrafo_2)
+    elements.append(Spacer(1, 12))  # Espaçamento maior antes da tabela
 
     col_widths = [180, 50, 70, 50, 70, 45, 70, 60, 170]
 
@@ -721,27 +849,52 @@ def generate_pdf_servidor(request, servidor_id):
     data_formatada = data_referencia.strftime("%d/%m/%Y")
 
     buffer = BytesIO()
+
     custom_page_size = landscape(letter)
-    
-
-    custom_page_width = 14 * inch 
+    custom_page_width = 14 * inch  
     custom_page_height = 11 * inch  
-    custom_page_size = (custom_page_width, custom_page_height)
 
-    doc = SimpleDocTemplate(buffer, pagesize=custom_page_size, rightMargin=1*inch, leftMargin=1*inch)
+    doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
-    secretaria_name = "SECRETARIA MUNICIPAL DA ECONOMIA - SEFAZ"
-    secretaria_style = ParagraphStyle(
-    name='SecretariaStyle',
-    fontSize=16,
-    alignment=1  
-)
+    # Adicionando a imagem
+    image_path = 'static/img/image-removebg-preview.png'  # substitua pelo caminho real da sua imagem
+    img = Image(image_path)
+    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawWidth = 2 * inch
+    elements.append(img)
 
+    secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
+
+    secretaria_style = ParagraphStyle(
+        name='SecretariaStyle',
+        fontSize=16,
+        alignment=1,  
+        fontName='Helvetica-Bold',  
+        spaceBefore=0,
+        spaceAfter=0
+    )
 
     secretaria_paragraph = Paragraph(secretaria_name, style=secretaria_style)
-
     elements.append(secretaria_paragraph)
+    elements.append(Spacer(1, 6))
+
+    texto1 = ("Praça dos palmares, n° 47, CEP 57020-150, Centro, Maceió - AL")
+    texto2 = ("Tel..: (082)3312-5051, CNPJ. 19.164.089/0001-50")
+
+    estilo_texto = ParagraphStyle(
+        name='EstiloTexto',
+        fontSize=12,
+        alignment=1,
+        leading=15,
+    )
+
+    texto_paragrafo_1 = Paragraph(texto1, style=estilo_texto)
+    texto_paragrafo_2 = Paragraph(texto2, style=estilo_texto)
+
+    elements.append(texto_paragrafo_1)
+    elements.append(texto_paragrafo_2)
+    elements.append(Spacer(1, 12))  
 
     col_widths = [2.5*inch, 230, 0.5*inch, 0.5*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1*inch, 1.0*inch]
 
@@ -784,7 +937,6 @@ def generate_pdf_servidor(request, servidor_id):
 
     table.setStyle(style)
     
-    elements.append(Paragraph("<br/><br/>", style=secretaria_style))
     elements.append(table)
 
     doc.build(elements)
@@ -824,6 +976,12 @@ def documentosadmin_repositorio(request):
 @group_required('Coord. De Tec. da Informação e Telecomunicações')
 def ramais_repositorio(request):
     return render(request, 'repositorio/ramais_repositorio.html')
+
+
+
+def homepage(request):
+    user = request.user
+    return render(request, 'site/homepage.html', {'user':user})
     
     
 

@@ -60,8 +60,8 @@
   
   <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
-    <a href="" class="home-btn">
-      <img src="{% static 'img/homeicon.png' %}" alt="Home">
+    <a href="{% url 'index-site' %}" class="home-btn">
+      <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
     </a>
     <img src="{% static 'img/Logout_Btn.png' %}" alt="Logout" class="logout-btn" onclick="this.closest('form').submit()">
   </form>
@@ -74,9 +74,6 @@
 <div id="mensagem-sucesso-form" style="color: green;"></div>
 <div id="conteudo"></div>
 
-<div class="version-text">
-  <a>Versão: 4.13.8-Beta </a>
-</div>
 
 
 

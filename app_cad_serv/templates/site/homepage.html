@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha384-fPwb0w6wyQ8p0LOtU3kzsfk2jsV9AMxR+GvU6P8inCyMlQ5D52zBOjr65BkmwTCmL" crossorigin="anonymous">
+  <script src="http://127.0.0.1:8000/api/api-pessoas/"></script>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<title>Pagina Inicial</title>
+
+
+</head>
+
+<body>
+<div class="usuario-barra">
+  
+  {% if user.is_authenticated %}
+  <span>Bem-vindo(a), {{ user.first_name }} {{ user.last_name }}</span>
+  <span>Setor: {% if user.groups.all %}{{ user.groups.all.0.name }}{% endif %}</span>
+
+  <div class="menubar">
+    
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Sistemas
+      </button>
+      
+      <ul class="dropdown-menu">
+        <button class="dropdown-item" onclick="window.location.href='{% url 'home' %}'">Sistema RH</button>
+        <li><button class="dropdown-item" onclick="window.location.href='/repositorio'">Repositorio</button></li>
+      </ul>
+    </div>
+        
+      
+      <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Consulta
+      </button>
+
+
+      <ul class="dropdown-menu">
+        {% if user.is_authenticated and user.is_superuser %}
+        <li><button class="dropdown-item" onclick="window.location.href='/admin'">Área Admin</button></li>
+        {% endif %}
+    </ul>
+    
+  </div>
+  
+</div>
+
+
+
+    
+    
+<form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <a href="{% url 'index-site' %}" class="home-btn">
+      <img src="https://i.imgur.com/8FM3kMW.png" alt="Home">
+    </a>
+  <img src="{% static 'img/Logout_Btn.png' %}" alt="Logout" class="logout-btn" onclick="this.closest('form').submit()">
+</form>
+    
+  
+  
+  
+  
+  
+  
+</div>
+{% endif %}
+<div id="mensagem-sucesso-form" style="color: green;"></div>
+<div id="conteudo"></div>
+
+
+<h1> TESTANDO HOMEPAGE</h1>
+
+
+<div class="imagem-fundo">
+  <img src="{% static 'img/Wallpaper_Prefeitura.png'%}" alt="Imagem Fundo">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
+  integrity="sha384-k6RqeZHzndpKXik3bR6qzGk65t0sIVMlXM6ZfPTAMN9ShELI6Z6C5x5kI7AvtqH2"
+  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
