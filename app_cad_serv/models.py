@@ -207,6 +207,7 @@ class Usuario(AbstractUser):
 class Pessoa(models.Model):
     nome = models.CharField(max_length=100, null=False, default='', unique=True)
     pessoa_mat = models.CharField(max_length=20, null=False, default='', blank=True) 
+    documento = models.FileField(upload_to='uploads/pdfs/', blank=True, null=True)
 
     def __str__(self):
         return self.nome

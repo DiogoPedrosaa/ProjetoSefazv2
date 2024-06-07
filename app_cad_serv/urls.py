@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.conf.urls import handler404
 from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -35,6 +37,10 @@ urlpatterns = [
     path('repositorio-ramais/', views.ramais_repositorio, name='ramais-repositorio'),
     path('index/', views.homepage, name='index-site'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 def custom_404_view(request, exception):
     return render(request, 'servidores/404.html', status=404)    
+
+

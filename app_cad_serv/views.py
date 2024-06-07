@@ -274,27 +274,27 @@ def generate_pdf(request):
     buffer = BytesIO()
 
     custom_page_size = landscape(letter)
-    custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
-    custom_page_height = 11 * inch  # 11 polegadas
+    custom_page_width = 14 * inch  
+    custom_page_height = 11 * inch 
 
     doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
     # Adicionando a imagem
-    image_path = 'static/img/image-removebg-preview.png'  # substitua pelo caminho real da sua imagem
+    image_path = 'static/img/image-removebg-preview.png'  
     img = Image(image_path)
-    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawHeight = 1.5 * inch  
     img.drawWidth = 2 * inch
     elements.append(img)
 
     secretaria_name = "SECRETARIA MUNICIPAL DA FAZENDA - SEFAZ"
 
-    # Definindo um estilo para o parágrafo da secretaria
+
     secretaria_style = ParagraphStyle(
         name='SecretariaStyle',
         fontSize=16,
-        alignment=1,  # centralizado
-        fontName='Helvetica-Bold',  # fonte em negrito
+        alignment=1,  
+        fontName='Helvetica-Bold',  
         spaceBefore = 0,
         spaceAfter = 0
     )
@@ -393,15 +393,15 @@ def generate_pdf_geral(request):
 
 
     custom_page_size = landscape(letter)
-    custom_page_width = 14 * inch  # Definindo o tamanho personalizado da página (14 polegadas)
-    custom_page_height = 11 * inch  # 11 polegadas
+    custom_page_width = 14 * inch 
+    custom_page_height = 11 * inch  
 
     doc = SimpleDocTemplate(buffer, pagesize=(custom_page_width, custom_page_height), rightMargin=20, leftMargin=20, topMargin=5, bottomMargin=3)
     elements = []
 
     image_path = 'https://assets.infra.grancursosonline.com.br/projeto/prefeitura-municipal-de-maceio-al.png'  # substitua pelo caminho real da sua imagem
     img = Image(image_path)
-    img.drawHeight = 1.5 * inch  # ajuste o tamanho conforme necessário
+    img.drawHeight = 1.5 * inch
     img.drawWidth = 2 * inch
     elements.append(img)
 
@@ -410,8 +410,8 @@ def generate_pdf_geral(request):
     secretaria_style = ParagraphStyle(
     name='SecretariaStyle',
     fontSize=16,
-    alignment=1,  # centralizado
-    fontName='Helvetica-Bold',  # fonte em negrito
+    alignment=1, 
+    fontName='Helvetica-Bold',  
     spaceBefore=0,
     spaceAfter=4
 )
